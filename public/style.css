@@ -711,6 +711,17 @@ a.thumbnail:hover{border-color:#0088cc;-webkit-box-shadow:0 1px 4px rgba(0, 105,
     -webkit-animation-duration: 500ms;
     border-bottom:1px solid rgba(0, 0, 0, .1);
 }
+.reply{
+	overflow: hidden;
+	padding: 0 12px;
+	color: black;
+	background: #fbfbfb; /* Old browsers */
+	margin-left: 10px;
+	width: 900px;
+    -webkit-animation-name: flip;
+    -webkit-animation-duration: 500ms;
+    border-bottom:1px solid rgba(0, 0, 0, .1);
+}
 .self {
 	background: #c7c7c7; /* Old browsers */
 	color: black;

@@ -67,6 +67,19 @@ socket.on('nbUsers', function(msg) {
 	$("#nbUsers").html(msg.nb);
 });
 
+socket.on('replyAdded', function(data, self) {
+	console.log(data);
+	if(self){
+		var dude = "Me";
+	}
+	else {
+		var dude = data['pseudo'];
+	}	
+	var parent = $('#RepliesFor_'+data['id']);
+	var div = '<div class="row reply" id="Reply_'+data['id']+'"><p class="infos"><span class="pseudo">'+dude+'</span>, <time class="date" title="'+data['date']+'">'+data['date']+'</time></p><p>' + data['message'] + '</p></div>';
+	parent.append(div);
+});
+
 socket.on('message', function(data, self) {
 	addMessage(data['id'], data['message'], data['pseudo'], new Date().toISOString(), self);
 	console.log(data);
@@ -96,7 +109,8 @@ function sentMessage() {
 function replyPost() {
 	if (replyInput.val() != "") 
 	{
-		var reply = {id: replyId, message: replyInput.val()};
+		var reply = {id: replyId, pseudo: pseudo, message: replyInput.val()};
+		console.log(reply);
 		socket.emit('reply', reply);
 		replyInput.val('');
 		$('#modalReply').modal('hide');
@@ -112,7 +126,7 @@ function addMessage(id, msg, pseudo, date, self) {
 		var classDiv = "row message";
 		var dude = pseudo;
 	}
-	$("#chatEntries").append('<div class="'+classDiv+'"><p class="infos"><span>'+id+'</span><span class="pseudo">'+dude+'</span>, <time class="date" title="'+date+'">'+date+'</time></p><p>' + msg + '</p><button class="btn-mini" id="Reply_'+id+'">Reply</button></div>');
+	$("#chatEntries").append('<div class="'+classDiv+'" id="Post_'+id+'"><p class="infos"><span class="pseudo">'+dude+'</span>, <time class="date" title="'+date+'">'+date+'</time></p><p>' + msg + '</p><div id="RepliesFor_'+id+'"></div><button class="btn-mini" id="Reply_'+id+'">Reply</button></div>');
 	time();
 }
 

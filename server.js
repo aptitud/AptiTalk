@@ -44,13 +44,14 @@ io.sockets.on('connection', function (socket) { // First connection
 	reloadUsers(); // Send the count to all the users
 	socket.on('message', function (data, self) { // Broadcast the message to all
 		if(pseudoSet(socket))
-		{			
-			var transmit = {id: 0, date: new Date().toISOString(), pseudo: returnPseudo(socket), message: data};
+		{	
+			var replies = [];		
+			var transmit = {id: 0, date: new Date().toISOString(), pseudo: returnPseudo(socket), message: data, replies: replies};
 			posts.push(transmit);
 			transmit['id'] = posts.length;
 			socket.emit('message', transmit, true);
 			socket.broadcast.emit('message', transmit, false);
-			console.log("user "+ transmit['pseudo'] +" said \""+data['message']+"\"");
+			console.log("user "+ transmit['pseudo'] +" said \""+transmit['message']+"\"");
 		}
 	});
 
@@ -71,6 +72,10 @@ io.sockets.on('connection', function (socket) { // First connection
 
 	socket.on('reply', function (data) {
 		console.log(data); 
+		var transmit = {id: data['id'], date: new Date().toISOString(), pseudo: data['pseudo'], message: data['message']};
+		console.log(transmit);
+		socket.emit('replyAdded', transmit, true);
+		socket.broadcast.emit('replyAdded', transmit, false);
 	});
 
 	socket.on('disconnect', function () { // Disconnection of the client
