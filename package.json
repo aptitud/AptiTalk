@@ -1,0 +1,14 @@
+{
+    "name": "AptiTalk.js",
+    "description": "Internal Chat/Twitter app",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "express": "*",
+        "jade": "*",
+        "socket.io": "*"
+    }
+}
