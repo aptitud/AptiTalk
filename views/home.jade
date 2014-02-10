@@ -3,8 +3,9 @@ html
     head
         title Chat
         link(rel="stylesheet", href="style.css")
-        script(src='http://code.jquery.com/jquery-1.7.1.min.js')
-        script(src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.js')
+        script(src='jquery-1.7.1.min.js')
+        script(src='jquery-ui.js')
+        script(src="bootstrap.min.js")
         script(src="/socket.io/socket.io.js")
         script(src="script.js")
     body
@@ -49,10 +50,8 @@ html
         div.modal-body
             p   This application has been made with 
                 a(href="http://nodejs.org/") Node.js 
-                , 
-                a(href="http://socket.io/") Socket.io
-                , 
-                a(href="http://expressjs.com/") Express 
+                ,a(href="http://socket.io/") Socket.io
+                ,a(href="http://expressjs.com/") Express 
                 | et 
                 a(href="http://jade-lang.com/") Jade
                 | .
