@@ -1,19 +1,20 @@
 doctype html
 html
     head
-        title Chat
+        title Aptitalk
         link(rel="stylesheet", href="style.css")
         script(src='jquery-1.7.1.min.js')
         script(src='jquery-ui.js')
         script(src="bootstrap.min.js")
         script(src="/socket.io/socket.io.js")
         script(src="script.js")
-    body
+    body        
         div.container#main
             div.navbar.navbar-fixed-top
                 div.navbar-inner
                     div.container
-                        a.brand(href="#") Chat : Node.js + Socket.io
+                        a.brand(href="#") AptiTalk
+                        span #{pageData.name[0]}
             div#chatEntries
             div.row#entries
                 input(type='text')#messageInput
