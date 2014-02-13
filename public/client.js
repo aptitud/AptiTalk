@@ -1,13 +1,13 @@
 var io;
 var socket = io.connect();
 var liEndTag = "</li>";
-var baseReplyHtml = "<div class=\"input-group input-group-sm\"><input id=\"reply-input-{0}\" type=\"text\" class=\"form-control reply-input\"><span class=\"input-group-btn\"><button id=\"reply-btn-{0}\" class=\"btn btn-info btn-xs\" type=\"button\">Reply</button></span></div>";
+var baseReplyHtml = "<div class=\"input-group input-group-sm\"><textarea id=\"reply-input-{0}\" type=\"text\" class=\"form-control reply-input\"></textarea><span class=\"input-group-btn\"><button id=\"reply-btn-{0}\" class=\"btn btn-info btn-xs\" type=\"button\">Reply</button></span></div>";
 var baseHtml = "<li class=\"list-group-item list-group-item{4}\"><div id=\"{5}-{0}\"><div id=\"post-image\"><img src=\"noprofile.jpg\" id=\"img-post\"></div><div id=\"post-user\">{1}</div><time id=\"post-time\" datetime=\"{2}\"></time><div id=\"post-message\">{3}</div>";
 var postHtml = baseHtml + baseReplyHtml + liEndTag;
 var replyHtml = baseHtml + liEndTag;
 var postsList = $(posts);
 var thePosts = [];
-var user = [];
+var theUser = [];
 
 if (!String.prototype.format) {
   String.prototype.format = function () {
@@ -20,12 +20,12 @@ if (!String.prototype.format) {
 }
 
 function createReply(postId, reply) {
-  var r = replyHtml.format(reply.id, reply.user, reply.date, reply.message, '-reply', 'reply');
+  var r = replyHtml.format(reply.id, reply.user.name, reply.date, reply.message, '-reply', 'reply');
   $('#post-' + postId).closest('li').after(r);
 }
 
 function createPost(post) {
-  var p = postHtml.format(post.id, post.user, post.date, post.message, '', 'post');
+  var p = postHtml.format(post.id, post.user.name, post.date, post.message, '', 'post');
   postsList.prepend(p);
 
   $(".btn-info").click(function (event) {
@@ -34,9 +34,10 @@ function createPost(post) {
     if (message !== '') {
       var reply = {
         postId: id,
-        user: 'hugo',
+        user: theUser,
         message: message
       };
+      $('#reply-input-' + id).val('');
       socket.emit('reply', reply);
     }
   });
@@ -45,7 +46,6 @@ function createPost(post) {
     var btnId = "#reply-btn-" + event.target.id.replace(/reply-input-/g, '');
     if (event.keyCode === 13) {
       $(btnId).click();
-      $(this).val('');
     }
   });
 }
@@ -57,18 +57,19 @@ $(function () {
     if (message !== '') {
       var post = {
         postId: 0,
-        user: 'hugo',
+        user: theUser,
         message: message
       };
       socket.emit('post', post);
+      $('#input-primary').val('');
     }
   });
   $('#input-primary').keypress(function (event) {
     if (event.keyCode === 13) {
       $('.btn-primary').click();
-      $(this).val('');
     }
   });
+  theUser = {id: $('#userId').text(), name: $('#userName').text(), email: $('#userEmail').text()};
   $('#input-primary').focus();
 });
 
@@ -81,7 +82,7 @@ socket.on('connect', function () {
 socket.on('loadPosts', function (posts) {
   thePosts = posts;
   $.each(posts, function (index, post) {
-      createPost(post);
+    createPost(post);
     $.each(post.replies.reverse(), function (index, reply) {
       createReply(post.id, reply);
     });
