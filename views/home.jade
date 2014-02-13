@@ -1,76 +1,38 @@
 doctype html
 html
-    head
-        title Aptitalk
-        link(rel="stylesheet", href="style.css")
-        script(src='jquery-1.7.1.min.js')
-        script(src='jquery-ui.js')
-        script(src="bootstrap.min.js")
-        script(src="/socket.io/socket.io.js")
-        script(src="script.js")
-    body        
-        div.container#main
-            div.navbar.navbar-fixed-top
-                div.navbar-inner
-                    div.container
-                        a.brand(href="#") AptiTalk
-                        span #{pageData.name[0]}
-            div#chatEntries
-            div.row#entries
-                input(type='text')#messageInput
-                div.btn-group
-                    button.btn#submit(data-loading-text="Send") Send
-                    button.btn.dropdown-toggle(data-toggle="dropdown")
-                        span.caret
-                    ul.dropdown-menu
-                        li
-                            a#edit(href="#modalPseudo", data-toggle="modal")
-                                i.icon-user
-                                | Change name
-                        li
-                            a#info(href="#modalInfos", data-toggle="modal")
-                                i.icon-info-sign
-                                | Infos
-            div#nbUsersDiv
-                p There is 
-                    span#nbUsers
-                    |  connected user(s).
-    div.modal.fade#modalPseudo
-        div.modal-header
-            h3 Choose a name
-        div.modal-body
-            p Choose a name :
-            input(type='text')#pseudoInput
-            div.alert.alert-error#alertPseudo
-                | This name is already used ! Choose another one.
-        div.modal-footer
-            button.btn.btn-primary#pseudoSubmit Go to the chat
-    div.modal.fade#modalInfos
-        div.modal-header
-            h3 Infos
-        div.modal-body
-            p   This application has been made with 
-                a(href="http://nodejs.org/") Node.js 
-                ,a(href="http://socket.io/") Socket.io
-                ,a(href="http://expressjs.com/") Express 
-                | et 
-                a(href="http://jade-lang.com/") Jade
-                | .
-            p   She use 
-                a(href="http://twitter.github.com/bootstrap/") Bootstrap 
-                | from 
-                a(href="https://twitter.com/") Twitter
-                | and
-                a(hre="http://rocha.la/jQuery-slimScroll") SlimScroll
-                | .
-            p   The source has been published on Github under MIT license.
-            p   This application has been made by 
-                a(href="http://geekuillau.me") Guillaume Besson - Geekuillaume
-                | .
-    div.modal.fade#modalReply
-        div.modal-header
-            h3 Reply
-        div.modal-body
-            input(type='text')#replyInput
-        div.modal-footer
-            button.btn.btn-primary#replySubmit Reply
+  head
+    title AptiTalk
+    link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
+    link(href="style.css", rel="stylesheet")
+  body
+    div.navbar.navbar-default.navbar-fixed-top
+      div.container
+        div.navbar-header
+          a.navbar-brand(href="#") AptiTalk
+    div#space &nbsp;
+    div.container
+      div.col-sm-12
+        div.row
+          div.jumbotron#profile
+            img#img-profile-heading(src="noprofile.jpg")
+            h2{Profile.Name}
+            h4 
+              | Posts:
+              span.label.label-default{Profile.Posts.Count}
+        div.row
+          div.panel.panel-default
+            div.panel-heading
+              h3.panel-title Post 
+            div#talk
+              div.input-group.input-group-sm
+                input.form-control(type='text')#input-primary
+                span.input-group-btn
+                  button.btn.btn-primary.btn-xs(type='button')
+                    | Talk
+            div.panel-body
+              ul.list-group#posts
+    script(src="https://code.jquery.com/jquery-1.10.2.min.js")
+    script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="jquery.timeago.js")
+    script(src="client.js")

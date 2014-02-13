@@ -22,6 +22,11 @@ function addMessage(id, msg, pseudo, date, self) {
 
   $("#chatEntries").append('<div class="' + classDiv + '" id="Post_' + id + '"><p class="infos"><span class="pseudo">' + dude + '</span>, <time class="date" title="' + date + '">' + date + '</time></p><p>' + msg + '</p><div id="RepliesFor_' + id + '"></div><button class="btn-mini" id="Reply_' + id + '">Reply</button></div>');
   time();
+
+  $('#Reply_' + id).click(function () {
+    replyId = id;
+    $('#modalReply').modal('show');
+  });
 }
 
 function setHeight() {
@@ -92,7 +97,7 @@ $(function () {
   bindButton();
   window.setInterval(time, 1000 * 10);
   $("#alertPseudo").hide();
-  $('#modalPseudo').modal('show');
+  $('#modalPseudo').modal('hide');
   $("#chatEntries").slimScroll({
     height: '400px'
   });
@@ -121,10 +126,26 @@ $(function () {
 
 socket.on('connect', function () {
   console.log('connected');
+  socket.emit('getPosts');
 });
 
 socket.on('nbUsers', function (msg) {
   $("#nbUsers").html(msg.nb);
+});
+
+socket.on('loadPosts', function (posts) {
+  console.log('Posts', posts);
+  var reversed = posts.slice().reverse(); //creates a copy and reverses it
+  console.log('Reversed', reversed);
+  $.each(reversed, function (index, post) {
+    //addMessage(id, msg, pseudo, date, self)
+    console.log('Id: %d Author: %s Message: %s Date: %s', post.id, post.author, post.message, post.date);
+    if (post.author === 'self') {
+      addMessage(post.id, post.message, post.author, post.date, true);
+    } else {
+      addMessage(post.id, post.message, post.author, post.date, false);
+    }
+  });
 });
 
 socket.on('replyAdded', function (data, self) {
@@ -141,8 +162,4 @@ socket.on('replyAdded', function (data, self) {
 socket.on('message', function (data, self) {
   addMessage(data.id, data.message, data.pseudo, new Date().toISOString(), self);
   console.log(data);
-  $('#Reply_' + data.id).click(function () {
-    replyId = data.id;
-    $('#modalReply').modal('show');
-  });
 });

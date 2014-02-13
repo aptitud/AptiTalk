@@ -9,7 +9,7 @@ var http = require('http'),
   io = require('socket.io').listen(server);
 
 var jade = require('jade');
-var mode = 'development';
+var mode = { datasource: 'inmemory', debug: false };
 
 // Views Options
 app.set('views', __dirname + '/views');

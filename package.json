@@ -7,8 +7,8 @@
         "start": "nodemon server.js"
     },
     "dependencies": {
-        "express": "*",
-        "jade": "*",
-        "socket.io": "*"
+        "express": "3.*",
+        "jade": "1.*",
+        "socket.io": "0.*"
     }
 }
