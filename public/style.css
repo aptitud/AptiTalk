@@ -1,132 +1,141 @@
 body{
-	background-color: #999;
+  background-color: #999;
 }
 
 #space{
-	margin-top: 20px;
-	margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 #profile{
-	text-align: center;
+  text-align: center;
 }
 
 #img-profile-heading{
-	border: 4px dotted #ffffff;
+  border: 4px dotted #ffffff;
 }
 
 #talk{
-	padding: 1px 15px 1px 15px;
-	background-color: #e0e0e0;
-	border-bottom: 1px solid #999;
+  padding: 1px 15px 1px 15px;
+  background-color: #e0e0e0;
+  border-bottom: 1px solid #999;
 }
 
 .panel-body{
-	background-color: #e0e0e0;
+  background-color: #e0e0e0;
 }
 
 .input-group{
-	margin-top: 20px;
-	margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .list-group-item{
-	margin-top: 20px;
+  margin-top: 20px;
 }
 
 textarea {
-    resize: none;
+  resize: none;
 }
 
 .list-group-item-reply{
-	width: 80%;
-	margin-top: 0px;
-	background-color: #fafafa;
-	padding-bottom: 20px;
+  width: 80%;
+  margin-top: 0px;
+  background-color: #fafafa;
+  padding-bottom: 20px;
 }
 
 #img-post{
-	width: 48px;
-	height: 48px;
-	border-radius: 5px;
+  width: 48px;
+  height: 48px;
+  border-radius: 5px;
 }
 
 #post-image{
-	display: block;
-	float: left;
+  display: block;
+  float: left;
 }
 
 #post-user{
-	margin-left: 10px;
-	margin-right: 10px;
-	font-weight: bold;
-	float: left;
+  margin-left: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+  float: left;
 }
 
 #post-time{
 }
 
 #post-message{
-	margin-left: 58px;
-	word-wrap: break-word;
+  margin-left: 58px;
+  word-wrap: break-word;
 }
 
 @media (max-width: 400px){
-	.container{
-		width: 100%;
-		padding-left: 1px;
-		padding-right: 1px;
-	}
-	.input-group{
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-	
-	.panel-body{
-		background-color: #e0e0e0;
-		padding: 1px;
-	}
+  textarea {
+    min-height: 100px;
+    resize: none;
+  }
 
-	#talk{
-		padding: 1px 1px 1px 1px;
-		background-color: #e0e0e0;
-		border-bottom: 1px solid #999;
-	}
+  .btn{
+    min-height: 100px;
+  }
 
-	.list-group-item-reply{
-		width: 95%;
-		margin-top: 0px;
-		background-color: #fdfdfd;
-		padding-bottom: 20px;
-		line-height:  1.3em;
-	}
+  .container{
+    width: 100%;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .input-group{
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .panel-body{
+    background-color: #e0e0e0;
+    padding: 1px;
+  }
 
-	#img-post{
-		width: 24px;
-		height: 24px;
-		border-radius: 2px;
-	}
+  #talk{
+    padding: 1px 1px 1px 1px;
+    background-color: #e0e0e0;
+    border-bottom: 1px solid #999;
+  }
 
-	#post-image{
-		display: block;
-		float: left;
-	}
+  .list-group-item-reply{
+    width: 95%;
+    margin-top: 0px;
+    background-color: #fdfdfd;
+    padding-bottom: 20px;
+    line-height:  1.3em;
+  }
 
-	#post-user{
-		margin-left: 34px;
-		font-weight: bold;
-		font-size: 0.8em;
-		float: none;
-	}
+  #img-post{
+    width: 24px;
+    height: 24px;
+    border-radius: 2px;
+  }
 
-	#post-time{
-		margin-left: 10px;
-		font-size: 0.8em;
-		clear: both;
-	}
+  #post-image{
+    display: block;
+    float: left;
+  }
 
-	#post-message{
-		margin-left: 34px;
-		word-wrap: break-word;
-	}
+  #post-user{
+    margin-left: 34px;
+    font-weight: bold;
+    font-size: 0.8em;
+    float: none;
+  }
+
+  #post-time{
+    margin-left: 10px;
+    font-size: 0.8em;
+    clear: both;
+  }
+
+  #post-message{
+    margin-left: 34px;
+    word-wrap: break-word;
+  }
 }

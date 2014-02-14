@@ -42,8 +42,11 @@ function createPost(post) {
     }
   });
 
-  $(".reply-input").keypress(function (event) {
+  $(".reply-input").keyup(function (event) {
     var btnId = "#reply-btn-" + event.target.id.replace(/reply-input-/g, '');
+    if (event.keyCode === 13 && event.shiftKey) {
+      return;
+    }
     if (event.keyCode === 13) {
       $(btnId).click();
     }
@@ -64,7 +67,11 @@ $(function () {
       $('#input-primary').val('');
     }
   });
-  $('#input-primary').keypress(function (event) {
+  $('#input-primary').keyup(function (event) {
+    if (event.keyCode === 13 && event.shiftKey) {      
+      return;
+    }
+
     if (event.keyCode === 13) {
       $('.btn-primary').click();
     }
