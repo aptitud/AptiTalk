@@ -1,5 +1,11 @@
 //Customization
 var appPort = Number(process.env.PORT || 2013);
+var theRealm = ('http://lit-tundra-5550.herokuapp.com:' + appPort) || ('http://192.168.1.109:' + appPort);
+var theReturnUrl = (theRealm + '/auth/google/return');
+
+console.log(process.env);
+console.log(theRealm);
+console.log(theReturnUrl);
 
 // Librairies
 var express = require('express'),
@@ -119,8 +125,8 @@ passport.deserializeUser(function (obj, done) {
 //   credentials (in this case, an OpenID identifier and profile), and invoke a
 //   callback with a user object.
 passport.use(new GoogleStrategy({
-  returnURL: 'http://192.168.1.109:' + appPort + '/auth/google/return',
-  realm: 'http://192.168.1.109:' + appPort + '/'
+  returnURL: theReturnUrl,
+  realm: theRealm
 },
   function (identifier, profile, done) {
     if (profile.emails.length === 0) {
