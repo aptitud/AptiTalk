@@ -72,6 +72,10 @@ textarea {
 }
 
 @media (max-width: 400px){
+  #img-logo{
+    margin-left: 13px;
+  }
+  
   textarea {
     min-height: 100px;
     resize: none;

@@ -9,7 +9,7 @@ html
     div.navbar.navbar-default.navbar-fixed-top
       div.container
         div.navbar-header
-          a.navbar-brand(href="#") AptiTalk
+          img.pull-left#img-logo(src="aptitud.png")
     div#space &nbsp;
     div.container
       div.col-sm-12
@@ -20,7 +20,6 @@ html
             span.hidden#userId #{user.identifier}
             span.hidden#userName #{user.displayName}
             span.hidden#userEmail #{user.emails[0].value}
-            div.hidden#xssHtml
         div.row
           div.panel.panel-default
             div.panel-heading
