@@ -1,5 +1,4 @@
 var should = require('should');
-//var xss = require('../lib/xss.js');
 var xss = require('../lib/xss.js');
 
 describe('XSSPrevention', function () {
