@@ -20,6 +20,7 @@ html
             span.hidden#userId #{user.identifier}
             span.hidden#userName #{user.displayName}
             span.hidden#userEmail #{user.emails[0].value}
+            div.hidden#xssHtml
         div.row
           div.panel.panel-default
             div.panel-heading
@@ -36,4 +37,4 @@ html
     script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
     script(src="/socket.io/socket.io.js")
     script(src="jquery.timeago.js")
-    script(src="client.js")
+    script(src="client.js")      
