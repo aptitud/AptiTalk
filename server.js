@@ -1,5 +1,5 @@
 //Customization
-var appPort = 2013;
+var appPort = Number(process.env.PORT || 2013);
 
 // Librairies
 var express = require('express'),
