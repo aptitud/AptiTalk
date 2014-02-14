@@ -51,6 +51,13 @@ textarea {
   border-radius: 5px;
 }
 
+.img-message{
+  max-width: 230px;
+  max-height: 230px;
+  border-radius: 5px;
+  border: 2px double #999;
+}
+
 #post-image{
   display: block;
   float: left;
