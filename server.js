@@ -18,6 +18,7 @@ var jade = require('jade');
 var mode = { datasource: 'inmemory', debug: false };
 var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
+var hashTagParser = require('./lib/hashtagparser.js');
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -55,12 +56,19 @@ app.configure(function () {
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
   app.use(express.favicon("favicon.ico"));
+  app.use(app.router);
 });
 
 // Render and send the main page
 app.get('/', google.ensureAuthenticated, function (req, res) {
   console.log('req.user', req.user);
   res.render('home', { user: req.user });
+});
+
+app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
+  var hashtags = chat.getHashTag(req.params.hashtag);
+  console.log(hashtags);  
+  res.render('hashtags', { name: '#' + req.params.hashtag, hashtags: JSON.stringify(hashtags) });
 });
 
 app.get('/login', function (req, res) {

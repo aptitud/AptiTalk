@@ -7,7 +7,7 @@ describe('Hashtags in posts or replies', function () {
     it('the hashtag should be clickable in message', function (done) {
       var hashtag = 'this #aptitalk is the best';
       var message = hashTagParser.toStaticHTML(hashtag);
-      message.should.equal('this<a href=\"/hashtags/#aptitalk\" target=\"_blank\"> #aptitalk</a> is the best');
+      message.should.equal('this<a href=\"/hashtags/aptitalk\" target=\"_blank\"> #aptitalk</a> is the best');
       done();
     });
   });
@@ -16,7 +16,7 @@ describe('Hashtags in posts or replies', function () {
     it('the hashtag should be clickable in message', function (done) {
       var hashtag = 'denna #aptitalk #äÄr #öÖverlägsen #påÅ';
       var message = hashTagParser.toStaticHTML(hashtag);
-      message.should.equal('denna<a href=\"/hashtags/#aptitalk\" target=\"_blank\"> #aptitalk</a><a href=\"/hashtags/#äÄr\" target=\"_blank\"> #äÄr</a><a href=\"/hashtags/#öÖverlägsen\" target=\"_blank\"> #öÖverlägsen</a><a href=\"/hashtags/#påÅ\" target=\"_blank\"> #påÅ</a>');
+      message.should.equal('denna<a href=\"/hashtags/aptitalk\" target=\"_blank\"> #aptitalk</a><a href=\"/hashtags/äÄr\" target=\"_blank\"> #äÄr</a><a href=\"/hashtags/öÖverlägsen\" target=\"_blank\"> #öÖverlägsen</a><a href=\"/hashtags/påÅ\" target=\"_blank\"> #påÅ</a>');
       done();
     });
   });
@@ -25,18 +25,36 @@ describe('Hashtags in posts or replies', function () {
     it('the post should have the hashtag in the datastructure', function (done) {
       var hashtag = 'this #aptitalk is the best';
       var post = chat.createPost(0, 'hugo', hashtag);
-      post.hashTags[0].should.equal('#aptitalk');
-      done();      
+      post.hashTags[0].should.equal('aptitalk');
+      done();
     });
   });
 
   describe('When a user posts a message containing several hashtags', function () {
-    it('the post should several hashtags in the datastructure', function (done) {
+    it('the post should have several hashtags in the datastructure', function (done) {
       var hashtag = 'this #aptitalk is the #best';
       var post = chat.createPost(0, 'hugo', hashtag);
-      post.hashTags[0].should.equal('#aptitalk');
-      post.hashTags[1].should.equal('#best');
-      done();      
+      post.hashTags[0].should.equal('aptitalk');
+      post.hashTags[1].should.equal('best');
+      done();
+    });
+  });
+
+  describe('When a user posts a message containing hashtags', function () {
+    it('the hashtags should be stored for easy searching', function (done) {
+      chat.reset();
+      var hashtag = 'this #aptitalk is the #best';
+      var post = chat.createPost(0, 'hugo', hashtag);
+      var post2 = chat.createPost(1, 'marcus', hashtag);
+      var tag = chat.getHashTag('aptitalk');
+      tag.name.should.equal('aptitalk');
+      tag.posts[0].id.should.equal(post.id);
+      tag.posts[1].id.should.equal(post2.id);
+      tag = chat.getHashTag('best');
+      tag.name.should.equal('best');
+      tag.posts[0].id.should.equal(post.id);
+      tag.posts[1].id.should.equal(post2.id);
+      done();
     });
   });
 });
