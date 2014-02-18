@@ -1,6 +1,6 @@
 //Customization
 var appPort = Number(process.env.PORT || 2013);
-var theRealm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://192.168.1.109:' + appPort);
+var theRealm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://172.20.10.2:' + appPort);
 var theReturnUrl = (theRealm + '/auth/google/return');
 
 // Librairies

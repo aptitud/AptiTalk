@@ -3,12 +3,11 @@ var chat = require('../lib/chat.js');
 
 describe('Posts and replies', function () {
   describe('When a user posts a simple message', function () {
-    var id = 1974;
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
-    var post = chat.createPost(id, user, message);
-    it('the post should have the correct id', function (done) {
-      post.id.should.equal(id);
+    var post = chat.createPost(user, message);
+    it('the post should have an id', function (done) {
+      post.should.have.property('id');
       done();
     });
     it('the post should have the correct user', function (done) {
@@ -30,14 +29,14 @@ describe('Posts and replies', function () {
   });
 
   describe('When a user replies to a post', function () {
-    var id = 1974;
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
     var replyMessage = 'Svar på öööh';
-    var post = chat.createPost(id, user, message);
-    var reply = chat.replyPost(post, user, replyMessage);
-    it('the reply should have the correct id', function (done) {
-      reply.id.should.equal(0);
+    var post = chat.createPost(user, message);
+    var id = chat.storePost(post);
+    var reply = chat.replyPost(id, user, replyMessage);
+    it('the reply should have an id', function (done) {
+      reply.should.have.property('id');
       done();
     });
     it('the reply should have the correct user', function (done) {
@@ -63,13 +62,17 @@ describe('Posts and replies', function () {
   });
 
   describe('When AptiTalk stores a post', function () {
-    var id = 1974;
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
-    var post = chat.createPost(id, user, message);
-    chat.storePost(post);
+    var post = chat.createPost(user, message);
+    var id = chat.storePost(post);
     it('the post should be stored', function (done) {
-      chat.getPosts().length.should.equal(1);
+      chat.getPosts().length.should.be.greaterThan(0);
+      done();
+    });
+    it('the post should be accessible from the post.id', function (done) {
+      var actual = chat.getPost(id);
+      actual.id.should.equal(id);
       done();
     });
   });

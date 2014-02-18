@@ -24,7 +24,7 @@ describe('Hashtags in posts or replies', function () {
   describe('When a user posts a message containing a hashtag', function () {
     it('the post should have the hashtag in the datastructure', function (done) {
       var hashtag = 'this #aptitalk is the best';
-      var post = chat.createPost(0, 'hugo', hashtag);
+      var post = chat.createPost('hugo', hashtag);
       post.hashtags[0].should.equal('aptitalk');
       done();
     });
@@ -33,7 +33,7 @@ describe('Hashtags in posts or replies', function () {
   describe('When a user posts a message containing several hashtags', function () {
     it('the post should have several hashtags in the datastructure', function (done) {
       var hashtag = 'this #aptitalk is the #best';
-      var post = chat.createPost(0, 'hugo', hashtag);
+      var post = chat.createPost('hugo', hashtag);
       post.hashtags[0].should.equal('aptitalk');
       post.hashtags[1].should.equal('best');
       done();
@@ -43,8 +43,8 @@ describe('Hashtags in posts or replies', function () {
   describe('When a user posts a message containing hashtags', function () {
     it('the hashtags should be stored for easy searching', function (done) {
       var hashtag = 'this #aptitalk is the #best';
-      chat.createPost(0, 'hugo', hashtag);
-      chat.createPost(1, 'marcus', hashtag);
+      chat.createPost('hugo', hashtag);
+      chat.createPost('marcus', hashtag);
       var tag = chat.getHashTag('aptitalk');
       tag.name.should.equal('aptitalk');
       tag.posts.length.should.be.greaterThan(0);
