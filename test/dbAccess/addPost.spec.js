@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var should = require("should");
-var dbAccess = require("../dbAccess");
+var dbAccess = require("../../lib/dbAccess/dbAccess");
 var testHelpers = require("./testHelpers.js");
 
 describe("Adding posts", function () {
