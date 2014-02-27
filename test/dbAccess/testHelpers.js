@@ -13,9 +13,8 @@ module.exports.USERNAME = USERNAME;
 module.exports.MESSAGE = MESSAGE;
 
 module.exports.connectMongo = function () {
-	if(mongoose.connection.readyState === 0) {// not open
-		mongoose.connect("mongodb://localhost:27017/AptiTalk_Test");
-	}
+	// TODO: Should use configuration object instead
+	dbAccess.connectToDb("mongodb://localhost:27017/AptiTalk_Test");
 };
 
 module.exports.validateErrorResult = function (result, errorMessage) {

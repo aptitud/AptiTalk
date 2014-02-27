@@ -1,67 +1,126 @@
 var should = require('should');
 var chat = require('../lib/chat.js');
+var testHelpers = require("./dbAccess/testHelpers.js");
+
 
 describe('Posts and replies', function () {
+  before(function (done) {
+      testHelpers.connectMongo();
+      done();
+  });
+
+  after(function (done) {
+    testHelpers.deleteAll();
+    done();
+  });
+
   describe('When a user posts a simple message', function () {
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
-    var post = chat.createPost(user, message);
-    it('the post should have an id', function (done) {
-      post.should.have.property('id');
+
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
       done();
     });
-    it('the post should have the correct user', function (done) {
-      post.user.should.equal(user);
-      done();
+
+    it('the post should have an id', function (done) {
+      chat.createPost(user, message, function (post) {
+        post.should.have.property('_id');
+        done();
+      });
     });
     it('the post should have the correct message', function (done) {
-      post.message.should.equal(message);
-      done();
+      chat.createPost(user, message, function (post) {
+        post.message.should.equal(message);
+        done();
+      });
     });
     it('the post should have no replies', function (done) {
-      post.replies.length.should.equal(0);
-      done();
+      chat.createPost(user, message, function (post) {
+        post.replies.length.should.equal(0);
+        done();
+      });
     });
     it('the post should have no hashtags', function (done) {
-      post.hashtags.length.should.equal(0);
-      done();
+      chat.createPost(user, message, function (post) {
+        post.hashtags.length.should.equal(0);
+        done();
+      });
     });
   });
 
   describe('When a user replies to a post', function () {
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
+      done();
+    });
+
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
     var replyMessage = 'Svar på öööh';
-    var post = chat.createPost(user, message);
-    var id = chat.storePost(post);
-    var reply = chat.replyPost(id, user, replyMessage);
+
     it('the reply should have an id', function (done) {
-      reply.should.have.property('id');
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.should.have.property('_id');
+          done();
+        });
+      });
     });
     it('the reply should have the correct user', function (done) {
-      reply.user.should.equal(user);
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.username.should.equal(user);
+          done();
+        });
+      });
     });
     it('the reply should have the correct message', function (done) {
-      reply.message.should.equal(replyMessage);
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.message.should.equal(replyMessage);
+          done();
+        });
+      });
     });
     it('the reply should have no replies', function (done) {
-      reply.replies.length.should.equal(0);
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.replies.length.should.equal(0);
+          done();
+        });
+      });
     });
     it('the reply should have no hashtags', function (done) {
-      reply.hashtags.length.should.equal(0);
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.hashtags.length.should.equal(0);
+          done();
+        });
+      });
+    });
+    it('the reply should have a reference to the post', function (done) {
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          reply.parentPostId.should.eql(post._id.toString());
+          done();
+        });
+      });
     });
     it('the post should have a reference to the reply', function (done) {
-      post.replies.length.should.equal(1);
-      done();
+      chat.createPost(user, message, function (post) {
+        chat.replyPost(post._id, user, replyMessage, function (reply) {
+          chat.getPost(post._id, function (postFromDb) {
+            postFromDb.replies.length.should.equal(1);
+            postFromDb.replies[0]._id.should.eql(reply._id);
+            done();
+          });
+        });
+      });
     });
   });
 
-  describe('When AptiTalk stores a post', function () {
+  /*describe('When AptiTalk stores a post', function () {
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
     var post = chat.createPost(user, message);
@@ -75,5 +134,5 @@ describe('Posts and replies', function () {
       actual.id.should.equal(id);
       done();
     });
-  });
+  });*/
 });
