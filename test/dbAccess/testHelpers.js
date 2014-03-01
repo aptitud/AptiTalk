@@ -2,6 +2,7 @@ var mongoose = require("mongoose");
 var should = require("should");
 var dbAccess = require("../../lib/dbAccess/dbAccess");
 var model = require("../../lib/dbAccess/model.js");
+var config = require("../../config")("test");
 var Hashtag = model.Hashtag;
 var Reply = model.Reply;
 var Post = model.Post;
@@ -13,8 +14,7 @@ module.exports.USERNAME = USERNAME;
 module.exports.MESSAGE = MESSAGE;
 
 module.exports.connectMongo = function () {
-	// TODO: Should use configuration object instead
-	dbAccess.connectToDb("mongodb://localhost:27017/AptiTalk_Test");
+	dbAccess.connectToDb(config.mongoUrl);
 };
 
 module.exports.validateErrorResult = function (result, errorMessage) {

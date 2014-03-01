@@ -20,10 +20,10 @@ var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
 var hashTagParser = require('./lib/hashtagparser.js');
 var dbAccess = require("./lib/dbAccess/dbAccess");
+var config = require("../config");
 
 
-// TODO: Should use configurations
-dbAccess.connectToDb("mongodb://localhost:27017/AptiTalk_Dev");
+dbAccess.connectToDb(config.mongoUrl);
 
 
 // Passport session setup.
