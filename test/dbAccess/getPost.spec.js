@@ -42,24 +42,6 @@ describe("Getting posts", function () {
 			done();
 		});
 
-		// Needs promises... badly...
-		// https://twitter.com/ullmark/statuses/437932230091243520
-		it("gets all posts with a certain hashtag", function (done) {
-			testHelpers.addTestPost(testHelpers.USERNAME, "#tjaaana 1", function (result) {
-				testHelpers.addTestPost(testHelpers.USERNAME, "#tjaaana 2", function (result) {
-					testHelpers.addTestPost(testHelpers.USERNAME, "#tjaaana 3", function (result) {
-						testHelpers.addTestPost(testHelpers.USERNAME, "#tjaaana 4", function (result) {
-							testHelpers.addTestPost(testHelpers.USERNAME, "#jora 4", function (result) {
-								dbAccess.getPostsByHashTag("#tjaaana", function (result) {
-									result.data.length.should.equal(4);
-									done();
-								});
-							});
-						});
-					});
-				});
-			});
-		});
 		it("gets all posts in pages", function (done) {
 			testHelpers.addTestPosts(12, function (result) {
 				dbAccess.getAllPosts(1, function (result) {

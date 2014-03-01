@@ -72,9 +72,23 @@ app.get('/', google.ensureAuthenticated, function (req, res) {
 });
 
 app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
-  var hashtags = chat.getHashTag(req.params.hashtag);
-  console.log(hashtags);  
-  res.render('hashtags', { name: '#' + req.params.hashtag, hashtags: JSON.stringify(hashtags) });
+  chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
+    console.log(hashtags);
+
+    res.render('hashtags',
+      {
+        name: '#' + tagWithPosts.tag,
+        // TODO: I don't get this, shouldn't this be "posts"
+        // and not "hashtags"?
+        // I send in a hashtags and ... get a list of all post it exists in?
+        // I thought so and have now change it into that, but then the
+        // property name below here should be changed too, right?
+        // And what are we returning btw, the message?
+        // I'm confused and have probably messed this up... Sorry
+        hashtags: JSON.stringify(tagWithPosts.posts)
+      }
+    );
+  });
 });
 
 app.get('/login', function (req, res) {
