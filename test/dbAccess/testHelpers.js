@@ -43,9 +43,6 @@ module.exports.deleteAll = function () {
 	Reply.remove({}, function (err) {
 		if(err) console.log(err);
 	});
-	Hashtag.remove({}, function (err) {
-		if(err) console.log(err);
-	});
 };
 
 var addTestPost = function (username, message, cb) {

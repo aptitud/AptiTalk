@@ -120,19 +120,17 @@ describe('Posts and replies', function () {
     });
   });
 
-  /*describe('When AptiTalk stores a post', function () {
+  describe('When AptiTalk stores a post', function () {
     var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
-    var post = chat.createPost(user, message);
-    var id = chat.storePost(post);
-    it('the post should be stored', function (done) {
-      chat.getPosts().length.should.be.greaterThan(0);
-      done();
+    it('the post should be accessible from the post._id', function (done) {
+      chat.createPost(user, message, function (post) {
+        chat.getPost(post._id, function (postFromDb) {
+          should.exists(postFromDb);
+          postFromDb.username.should.equal(user);
+          done();
+        });
+      });
     });
-    it('the post should be accessible from the post.id', function (done) {
-      var actual = chat.getPost(id);
-      actual.id.should.equal(id);
-      done();
-    });
-  });*/
+  });
 });

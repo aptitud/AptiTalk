@@ -1,8 +1,19 @@
 var should = require('should');
 var hashTagParser = require('../lib/hashtagparser.js');
 var chat = require('../lib/chat.js');
+var testHelpers = require("./dbAccess/testHelpers.js");
 
 describe('Hashtags in posts or replies', function () {
+  before(function (done) {
+      testHelpers.connectMongo();
+      done();
+  });
+
+  after(function (done) {
+    testHelpers.deleteAll();
+    done();
+  });
+
   describe('When a user posts a message containing a hashtag', function () {
     it('the hashtag should be clickable in message', function (done) {
       var hashtag = 'this #aptitalk is the best';
@@ -22,36 +33,55 @@ describe('Hashtags in posts or replies', function () {
   });
 
   describe('When a user posts a message containing a hashtag', function () {
-    it('the post should have the hashtag in the datastructure', function (done) {
-      var hashtag = 'this #aptitalk is the best';
-      var post = chat.createPost('hugo', hashtag);
-      post.hashtags[0].should.equal('aptitalk');
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
       done();
+    });
+
+    it('the post should have the hashtag in the datastructure', function (done) {
+      var message = 'this #aptitalk is the best';
+      var user = 'hugo';
+      chat.createPost(user, message, function (post) {
+        post.hashtags.length.should.equal(1);
+        post.hashtags[0].should.equal('aptitalk');
+        done();
+      });
     });
   });
 
   describe('When a user posts a message containing several hashtags', function () {
-    it('the post should have several hashtags in the datastructure', function (done) {
-      var hashtag = 'this #aptitalk is the #best';
-      var post = chat.createPost('hugo', hashtag);
-      post.hashtags[0].should.equal('aptitalk');
-      post.hashtags[1].should.equal('best');
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
       done();
+    });
+
+    it('the post should have the hashtag in the datastructure', function (done) {
+      var message = 'this #aptitalk is the #best';
+      var user = 'hugo';
+      chat.createPost(user, message, function (post) {
+        post.hashtags.length.should.equal(2);
+        post.hashtags[0].should.equal('aptitalk');
+        post.hashtags[1].should.equal('best');
+        done();
+      });
     });
   });
 
   describe('When a user posts a message containing hashtags', function () {
-    it('the hashtags should be stored for easy searching', function (done) {
-      var hashtag = 'this #aptitalk is the #best';
-      chat.createPost('hugo', hashtag);
-      chat.createPost('marcus', hashtag);
-      var tag = chat.getHashTag('aptitalk');
-      tag.name.should.equal('aptitalk');
-      tag.posts.length.should.be.greaterThan(0);
-      tag = chat.getHashTag('best');
-      tag.name.should.equal('best');
-      tag.posts.length.should.be.greaterThan(0);
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
       done();
+    });
+
+    it("adds and retrieves hashtags", function (done) {
+      chat.createPost('hugo', 'I think #aptitalk rocks', function (post) {
+        chat.createPost('marcus', 'I think #aptitalk rocks indeeed', function (post) {
+          chat.getPostsForHashtag('aptitalk', function (hashtag) {
+              hashtag.posts.length.should.be.equal(2);
+              done();
+          });
+        });
+      });
     });
   });
 });
