@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js",
-    "test" : "mocha -u bdd -R spec --watch"
+    "test" : "mocha -u bdd -R spec --recursive"
   }
   ,"engine": "node >= 0.10.25"
   ,"dependencies": {
@@ -14,7 +14,8 @@
     "jade": "1.*",
     "socket.io": "0.*",
     "passport": ">= 0.0.0",
-    "passport-google": ">= 0.0.0"
+    "passport-google": ">= 0.0.0",
+    "mongoose": "^3.8.7"
   }
   ,"devDependencies": {
         "mocha": ">=1.17.*",
