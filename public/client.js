@@ -20,12 +20,15 @@ if (!String.prototype.format) {
 }
 
 function createReply(postId, reply) {
-  var r = replyHtml.format(reply.id, reply.user.name, reply.date, reply.message, '-reply', 'reply');
+  console.log('CLIENT - createReply', reply);
+  console.log('CLIENT - createReply postId', postId);
+  var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply');
   $('#post-' + postId).closest('li').after(r);
 }
 
 function createPost(post) {
-  var p = postHtml.format(post.id, post.user.name, post.date, post.message, '', 'post');
+  console.log('CLIENT - createPost', post);
+  var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post');
   postsList.prepend(p);
 
   $(".btn-info").click(function (event) {
@@ -68,7 +71,7 @@ $(function () {
     }
   });
   $('#input-primary').keyup(function (event) {
-    if (event.keyCode === 13 && event.shiftKey) {      
+    if (event.keyCode === 13 && event.shiftKey) {
       return;
     }
 
@@ -76,22 +79,27 @@ $(function () {
       $('.btn-primary').click();
     }
   });
-  theUser = {id: $('#userId').text(), name: $('#userName').text(), email: $('#userEmail').text()};
+  theUser = {
+    id: $('#userId').text(),
+    name: $('#userName').text(),
+    email: $('#userEmail').text()
+  };
   $('#input-primary').focus();
 });
 
 socket.on('connect', function () {
-  console.log('connected');
+  console.log('CLIENT - Connected');
   postsList.empty();
   socket.emit('getPosts');
 });
 
 socket.on('loadPosts', function (posts) {
-  thePosts = posts;
+  console.log('CLIENT - loadPosts', posts);
+  thePosts = posts.reverse();
   $.each(posts, function (index, post) {
     createPost(post);
-    $.each(post.replies.reverse(), function (index, reply) {
-      createReply(post.id, reply);
+    $.each(post.replies, function (index, reply) {
+      createReply(post._id, reply);
     });
   });
 

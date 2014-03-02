@@ -1,6 +1,6 @@
 //Customization
 var appPort = Number(process.env.PORT || 2013);
-var theRealm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://172.20.10.2:' + appPort);
+var theRealm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://192.168.1.7:' + appPort);
 var theReturnUrl = (theRealm + '/auth/google/return');
 
 // Librairies
@@ -15,16 +15,17 @@ var passport = require('passport'),
   GoogleStrategy = require('passport-google').Strategy;
 
 var jade = require('jade');
-var mode = { datasource: 'inmemory', debug: false };
+var mode = {
+  datasource: 'inmemory',
+  debug: false
+};
 var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
 var hashTagParser = require('./lib/hashtagparser.js');
-var dbAccess = require("./lib/dbAccess/dbAccess");
-var config = require("../config");
-
+var dbAccess = require('./lib/dbAccess/dbAccess');
+var config = require('./config')('local');
 
 dbAccess.connectToDb(config.mongoUrl);
-
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -68,32 +69,36 @@ app.configure(function () {
 // Render and send the main page
 app.get('/', google.ensureAuthenticated, function (req, res) {
   console.log('req.user', req.user);
-  res.render('home', { user: req.user });
+  res.render('home', {
+    user: req.user
+  });
 });
 
 app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
+  /*
   chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
     console.log(hashtags);
 
-    res.render('hashtags',
-      {
-        name: '#' + tagWithPosts.tag,
-        // TODO: I don't get this, shouldn't this be "posts"
-        // and not "hashtags"?
-        // I send in a hashtags and ... get a list of all post it exists in?
-        // I thought so and have now change it into that, but then the
-        // property name below here should be changed too, right?
-        // And what are we returning btw, the message?
-        // I'm confused and have probably messed this up... Sorry
-        hashtags: JSON.stringify(tagWithPosts.posts)
-      }
-    );
+    res.render('hashtags', {
+      name: '#' + tagWithPosts.tag,
+      // TODO: I don't get this, shouldn't this be "posts"
+      // and not "hashtags"?
+      // I send in a hashtags and ... get a list of all post it exists in?
+      // I thought so and have now change it into that, but then the
+      // property name below here should be changed too, right?
+      // And what are we returning btw, the message?
+      // I'm confused and have probably messed this up... Sorry
+      hashtags: JSON.stringify(tagWithPosts.posts)
+    });
   });
+*/
 });
 
 app.get('/login', function (req, res) {
   console.log('req.user', req.user);
-  res.render('login', { user: req.user });
+  res.render('login', {
+    user: req.user
+  });
 });
 
 // GET /auth/google
@@ -152,19 +157,17 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new GoogleStrategy({
   returnURL: theReturnUrl,
   realm: theRealm
-},
-  function (identifier, profile, done) {
-    if (profile.emails.length === 0) {
-      return done("Not a valid user");
-    }
+}, function (identifier, profile, done) {
+  if (profile.emails.length === 0) {
+    return done("Not a valid user");
+  }
 
-    var email = profile.emails[0].value.toLowerCase();
-    if (email.indexOf("aptitud.se") === -1) {
-      return done("You need to be a valid Aptitud user");
-    }
-    profile.identifier = identifier;
-    console.log(profile);
+  var email = profile.emails[0].value.toLowerCase();
+  if (email.indexOf("aptitud.se") === -1) {
+    return done("You need to be a valid Aptitud user");
+  }
+  profile.identifier = identifier;
+  console.log(profile);
 
-    return done(null, profile);
-  })
-  );
+  return done(null, profile);
+}));
