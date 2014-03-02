@@ -1,22 +1,25 @@
+var mongoDevUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Dev";
+var mongoStageUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Test";
+var mongoProdUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Prod";
+
 var config = {
   local: {
     mode: 'local',
     port: 3000,
-    mongoUrl: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Dev"
+    mongoUrl: mongoDevUri
   },
   staging: {
     mode: 'staging',
     port: 4000,
-    mongoUrl: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Test"
+    mongoUrl: mongoStageUri
   },
   prod: {
     mode: 'prod',
     port: 5000,
-    mongoUrl: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Prod"
+    mongoUrl: mongoProdUri
   }
 };
 
 module.exports = function (mode) {
-  console.log('process.argv', process.argv[2]);
   return config[mode || process.argv[2] || 'local'] || config.local;
 };

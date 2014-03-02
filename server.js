@@ -23,7 +23,7 @@ var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
 var hashTagParser = require('./lib/hashtagparser.js');
 var dbAccess = require('./lib/dbAccess/dbAccess');
-var config = require('./config')('local');
+var config = require('./config')('prod');
 
 dbAccess.connectToDb(config.mongoUrl);
 
