@@ -3,19 +3,23 @@ html
   head
     title AptiTalk
     meta(name="viewport" content="width=device-width,initial-scale=1, user-scalable=no")
-    link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
-    link(href="style.css", rel="stylesheet")
+    if internet
+      link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
+      link(href="css/style.css", rel="stylesheet")
+    else
+      link(href="css/bootstrap.min.css", rel="stylesheet")
+      link(href="css/style.css", rel="stylesheet")
   body
     div.navbar.navbar-default.navbar-fixed-top
       div.container
         div.navbar-header
-          img.pull-left#img-logo(src="aptitud.png")
+          img.pull-left#img-logo(src="img/aptitud.png")
     div#space &nbsp;
     div.container
       div.col-sm-12
         div.row
           div.jumbotron#profile
-            img#img-profile-heading(src="noprofile.jpg")
+            img#img-profile-heading(src="img/noprofile.jpg")
             h2 #{user.displayName}
             span.hidden#userId #{user.identifier}
             span.hidden#userName #{user.displayName}
@@ -32,8 +36,15 @@ html
                     | Talk
             div.panel-body
               ul.list-group#posts
-    script(src="https://code.jquery.com/jquery-1.10.2.min.js")
-    script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
-    script(src="/socket.io/socket.io.js")
-    script(src="jquery.timeago.js")
-    script(src="client.js")     
+    if internet
+      script(src="https://code.jquery.com/jquery-1.10.2.min.js")
+      script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
+      script(src="/socket.io/socket.io.js")
+      script(src="js/jquery.timeago.js")
+      script(src="js/client.js")
+    else
+      script(src="js/jquery-1.10.2.min.js")
+      script(src="js/bootstrap.min.js")
+      script(src="/socket.io/socket.io.js")
+      script(src="js/jquery.timeago.js")
+      script(src="js/client.js")

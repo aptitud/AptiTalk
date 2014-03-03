@@ -5,8 +5,8 @@ var testHelpers = require("./dbAccess/testHelpers.js");
 
 describe('Posts and replies', function () {
   before(function (done) {
-      testHelpers.connectMongo();
-      done();
+    testHelpers.connectMongo();
+    done();
   });
 
   after(function (done) {

@@ -1,8 +1,3 @@
-//Customization
-var appPort = Number(process.env.PORT || 2013);
-var theRealm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://192.168.1.7:' + appPort);
-var theReturnUrl = (theRealm + '/auth/google/return');
-
 // Librairies
 var express = require('express'),
   app = express.createServer();
@@ -23,7 +18,7 @@ var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
 var hashTagParser = require('./lib/hashtagparser.js');
 var dbAccess = require('./lib/dbAccess/dbAccess');
-var config = require('./config')('prod');
+var config = require('./config')();
 
 dbAccess.connectToDb(config.mongoUrl);
 
@@ -66,16 +61,51 @@ app.configure(function () {
   app.use(app.router);
 });
 
-// Render and send the main page
-app.get('/', google.ensureAuthenticated, function (req, res) {
-  console.log('req.user', req.user);
-  res.render('home', {
-    user: req.user
+if (config.authentication === 'google') {
+  // Render and send the main page
+  app.get('/', google.ensureAuthenticated, function (req, res) {
+    console.log('req.user', req.user);
+    res.render('home', {
+      user: req.user,
+      internet: config.internet
+    });
   });
-});
 
-app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
-  /*
+  app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
+    /*
+    chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
+      console.log(hashtags);
+
+      res.render('hashtags', {
+        name: '#' + tagWithPosts.tag,
+        // TODO: I don't get this, shouldn't this be "posts"
+        // and not "hashtags"?
+        // I send in a hashtags and ... get a list of all post it exists in?
+        // I thought so and have now change it into that, but then the
+        // property name below here should be changed too, right?
+        // And what are we returning btw, the message?
+        // I'm confused and have probably messed this up... Sorry
+        hashtags: JSON.stringify(tagWithPosts.posts)
+      });
+    });
+  */
+  });
+} else {
+  // Render and send the main page
+  app.get('/', google.bypassAuthenticated, function (req, res) {
+    console.log('req.user', req.user);
+    res.render('home', {
+      user: {
+        identifier: 'unknown',
+        displayName: 'not authenticated',
+        emails: ['unknown@not.authenticated']
+      },
+      internet: config.internet
+    });
+  });
+
+  app.get('/hashtags/:hashtag', google.bypassAuthenticated, function (req, res) {
+    /*
   chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
     console.log(hashtags);
 
@@ -92,12 +122,14 @@ app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
     });
   });
 */
-});
+  });
+}
 
 app.get('/login', function (req, res) {
   console.log('req.user', req.user);
   res.render('login', {
-    user: req.user
+    user: req.user,
+    internet: config.internet
   });
 });
 
@@ -127,9 +159,14 @@ app.get('/auth/google/return',
     res.redirect('/');
   });
 
-app.listen(appPort);
+app.listen(config.appPort);
 
-console.log("Server listening on port " + appPort);
+console.log("Server listening on port " + config.appPort);
+console.log("AppPort:" + config.appPort);
+console.log("Realm:" + config.realm);
+console.log("ReturnUrl:" + config.returnUrl);
+console.log("Authentication:" + config.authentication);
+console.log("Internet:" + config.internet);
 
 io.sockets.on('connection', function (socket) {
   chat.connection(io, socket, mode);
@@ -155,8 +192,8 @@ passport.deserializeUser(function (obj, done) {
 //   credentials (in this case, an OpenID identifier and profile), and invoke a
 //   callback with a user object.
 passport.use(new GoogleStrategy({
-  returnURL: theReturnUrl,
-  realm: theRealm
+  returnURL: config.returnUrl,
+  realm: config.realm
 }, function (identifier, profile, done) {
   if (profile.emails.length === 0) {
     return done("Not a valid user");

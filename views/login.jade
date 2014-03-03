@@ -3,15 +3,22 @@ html
   head
     title AptiTalk login
     meta(name="viewport" content="width=device-width, user-scalable=no")
-    link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
+    if internet
+      link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
+    else
+      link(href="css/bootstrap.min.css", rel="stylesheet")
   body
     div.container
       div.col-sm-12
         div.row
           div.jumbotron
-            img(src="google.png")
+            img(src="img/google.png")
             h1 Welcome to AptiTalk
             p (aptitud.se accounts only)
             a.btn.btn-sm.btn-primary(href="/auth/google") Sign in with your aptitud acccount
-  script(src="https://code.jquery.com/jquery-1.10.2.min.js")
-  script(src="login.js")
+  if internet
+    script(src="https://code.jquery.com/jquery-1.10.2.min.js")
+    script(src="login.js")
+  else
+    script(src="js/jquery-1.10.2.min.js")
+    script(src="js/login.js")

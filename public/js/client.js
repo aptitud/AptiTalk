@@ -2,7 +2,7 @@ var io;
 var socket = io.connect();
 var liEndTag = "</li>";
 var baseReplyHtml = "<div class=\"input-group input-group-sm\"><textarea id=\"reply-input-{0}\" type=\"text\" class=\"form-control reply-input\"></textarea><span class=\"input-group-btn\"><button id=\"reply-btn-{0}\" class=\"btn btn-info btn-xs\" type=\"button\">Reply</button></span></div>";
-var baseHtml = "<li class=\"list-group-item list-group-item{4}\"><div id=\"{5}-{0}\"><div id=\"post-image\"><img src=\"noprofile.jpg\" id=\"img-post\"></div><div id=\"post-user\">{1}</div><time id=\"post-time\" datetime=\"{2}\"></time><div id=\"post-message\">{3}</div>";
+var baseHtml = "<li class=\"list-group-item list-group-item{4}\"><div id=\"{5}-{0}\"><div id=\"post-image\"><img src=\"img/noprofile.jpg\" id=\"img-post\"></div><div id=\"post-user\">{1}</div><time id=\"post-time\" datetime=\"{2}\"></time><div id=\"post-message\">{3}</div>";
 var postHtml = baseHtml + baseReplyHtml + liEndTag;
 var replyHtml = baseHtml + liEndTag;
 var postsList = $(posts);
@@ -37,7 +37,7 @@ function createPost(post) {
     if (message !== '') {
       var reply = {
         postId: id,
-        user: theUser,
+        user: theUser.name,
         message: message
       };
       $('#reply-input-' + id).val('');
@@ -63,7 +63,7 @@ $(function () {
     if (message !== '') {
       var post = {
         postId: 0,
-        user: theUser,
+        user: theUser.name,
         message: message
       };
       socket.emit('post', post);

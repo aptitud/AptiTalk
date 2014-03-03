@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon server.js prod",
     "test": "mocha -u bdd -R spec --recursive"
   },
   "engine": "node >= 0.10.25",
