@@ -61,51 +61,21 @@ app.configure(function () {
   app.use(app.router);
 });
 
-if (config.authentication === 'google') {
-  // Render and send the main page
-  app.get('/', google.ensureAuthenticated, function (req, res) {
-    console.log('req.user', req.user);
-    res.render('home', {
-      user: req.user,
-      internet: config.internet
-    });
+// Render and send the main page
+app.get('/', google.ensureAuthenticated, function (req, res) {
+  console.log('req.user', req.user);
+  res.render('home', {
+    user: req.user || {
+      identifier: '1',
+      displayName: 'not authenticated',
+      emails: ['blaj@blaj.com']
+    },
+    internet: config.internet
   });
+});
 
-  app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
-    /*
-    chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
-      console.log(hashtags);
-
-      res.render('hashtags', {
-        name: '#' + tagWithPosts.tag,
-        // TODO: I don't get this, shouldn't this be "posts"
-        // and not "hashtags"?
-        // I send in a hashtags and ... get a list of all post it exists in?
-        // I thought so and have now change it into that, but then the
-        // property name below here should be changed too, right?
-        // And what are we returning btw, the message?
-        // I'm confused and have probably messed this up... Sorry
-        hashtags: JSON.stringify(tagWithPosts.posts)
-      });
-    });
-  */
-  });
-} else {
-  // Render and send the main page
-  app.get('/', google.bypassAuthenticated, function (req, res) {
-    console.log('req.user', req.user);
-    res.render('home', {
-      user: {
-        identifier: 'unknown',
-        displayName: 'not authenticated',
-        emails: ['unknown@not.authenticated']
-      },
-      internet: config.internet
-    });
-  });
-
-  app.get('/hashtags/:hashtag', google.bypassAuthenticated, function (req, res) {
-    /*
+app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
+  /*
   chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
     console.log(hashtags);
 
@@ -122,8 +92,7 @@ if (config.authentication === 'google') {
     });
   });
 */
-  });
-}
+});
 
 app.get('/login', function (req, res) {
   console.log('req.user', req.user);
