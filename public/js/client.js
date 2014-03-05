@@ -99,10 +99,12 @@ socket.on('connect', function () {
 
 socket.on('replyAdded', function (postId, replyAdded) {
   createReply(postId, replyAdded);
+  initButtonEvents();
   $('time').timeago();
 });
 
 socket.on('postAdded', function (postAdded) {
   createPost(postAdded);
+  initButtonEvents();
   $('time').timeago();
 });
