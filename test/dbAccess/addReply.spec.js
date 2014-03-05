@@ -39,7 +39,7 @@ describe("Replying to posts", function () {
 	it("adds a simple reply to a post", function (done) {
 		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
 			var id = result.data._id;
-			dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", function (result) {
+			dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", testHelpers.getHashTagsFromMessage, function (result) {
 				testHelpers.validateOkResult(result);
 				validateNumberOfReplies(id, 1);
 				done();

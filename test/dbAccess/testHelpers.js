@@ -3,8 +3,6 @@ var should = require("should");
 var dbAccess = require("../../lib/dbAccess/dbAccess");
 var model = require("../../lib/dbAccess/model.js");
 var config = require("../../config")("test");
-var Hashtag = model.Hashtag;
-var Reply = model.Reply;
 var Post = model.Post;
 
 var USERNAME = "Marcus";
@@ -40,9 +38,6 @@ module.exports.deleteAll = function () {
 	Post.remove({}, function (err) {
 		if(err) console.log(err);
 	});
-	Reply.remove({}, function (err) {
-		if(err) console.log(err);
-	});
 };
 
 var addTestPost = function (username, message, cb) {
@@ -61,7 +56,6 @@ module.exports.addTestPosts = function (numberOfPosts, callback) {
 
 var getHashTagsFromMessage = function (message) {
 	var hashs = [];
-
 	var words = message.split(" ");
 	for (var i = 0; i < words.length; i++) {
 		if(words[i][0] === "#"){
