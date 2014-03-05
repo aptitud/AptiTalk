@@ -34,8 +34,28 @@ html
                 span.input-group-btn
                   button.btn.btn-primary.btn-xs(type='button')
                     | Talk
-            div.panel-body
+            div.panel-body              
               ul.list-group#posts
+                each post in posts
+                  li(class='list-group-item list-group-item')
+                    div(id='post-' + post._id)
+                      div#post-image
+                        img#img-post(src='img/noprofile.jpg')
+                      div#post-user #{post.username}
+                      time#post-time(datetime=post.time.toISOString())
+                      div#post-message !{post.message}
+                      div.input-group.input-group-sm
+                        textarea.form-control.reply-input(id='reply-input-' + post._id type='text')
+                        span.input-group-btn
+                          button.btn.btn-info.btn-xs(id='reply-btn-' + post._id type='button') Reply
+                  each reply in post.replies.reverse()
+                    li(class='list-group-item list-group-item-reply')
+                      div(id='reply-' + reply.parentPostId)
+                        div#post-image
+                          img#img-post(src='img/noprofile.jpg')
+                        div#post-user #{reply.username}
+                        time#post-time(datetime=reply.time.toISOString())
+                        div#post-message !{reply.message}
     if internet
       script(src="https://code.jquery.com/jquery-1.10.2.min.js")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")

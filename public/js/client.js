@@ -30,6 +30,21 @@ function createPost(post) {
   console.log('CLIENT - createPost', post);
   var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post');
   postsList.prepend(p);
+}
+
+function initButtonEvents() {
+  $('.btn-primary').click(function (event) {
+    var message = $('#input-primary').val();
+    if (message !== '') {
+      var post = {
+        postId: 0,
+        user: theUser.name,
+        message: message
+      };
+      socket.emit('post', post);
+      $('#input-primary').val('');
+    }
+  });
 
   $(".btn-info").click(function (event) {
     var id = event.target.id.replace(/reply-btn-/g, '');
@@ -54,22 +69,7 @@ function createPost(post) {
       $(btnId).click();
     }
   });
-}
 
-//Init
-$(function () {
-  $('.btn-primary').click(function (event) {
-    var message = $('#input-primary').val();
-    if (message !== '') {
-      var post = {
-        postId: 0,
-        user: theUser.name,
-        message: message
-      };
-      socket.emit('post', post);
-      $('#input-primary').val('');
-    }
-  });
   $('#input-primary').keyup(function (event) {
     if (event.keyCode === 13 && event.shiftKey) {
       return;
@@ -79,31 +79,22 @@ $(function () {
       $('.btn-primary').click();
     }
   });
+}
+
+//Init
+$(function () {
   theUser = {
     id: $('#userId').text(),
     name: $('#userName').text(),
     email: $('#userEmail').text()
   };
+  initButtonEvents();
   $('#input-primary').focus();
+  $('time').timeago();
 });
 
 socket.on('connect', function () {
   console.log('CLIENT - Connected');
-  postsList.empty();
-  socket.emit('getPosts');
-});
-
-socket.on('loadPosts', function (posts) {
-  console.log('CLIENT - loadPosts', posts);
-  thePosts = posts.reverse();
-  $.each(posts, function (index, post) {
-    createPost(post);
-    $.each(post.replies, function (index, reply) {
-      createReply(post._id, reply);
-    });
-  });
-
-  $('time').timeago();
 });
 
 socket.on('replyAdded', function (postId, replyAdded) {

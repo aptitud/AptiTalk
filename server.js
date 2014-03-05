@@ -63,14 +63,17 @@ app.configure(function () {
 
 // Render and send the main page
 app.get('/', google.ensureAuthenticated, function (req, res) {
-  console.log('req.user', req.user);
-  res.render('home', {
-    user: req.user || {
-      identifier: '1',
-      displayName: 'not authenticated',
-      emails: ['blaj@blaj.com']
-    },
-    internet: config.internet
+  chat.getPosts(function (posts) {
+    console.log('SERVER - posts', posts);
+    res.render('home', {
+      user: req.user || {
+        identifier: '1',
+        displayName: 'not authenticated',
+        emails: ['blaj@blaj.com']
+      },
+      internet: config.internet,
+      posts: posts
+    });
   });
 });
 
