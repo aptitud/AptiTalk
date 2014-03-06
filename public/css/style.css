@@ -72,10 +72,17 @@ textarea {
 #post-time{
 }
 
+#reply-message{
+  margin-left: 58px;
+  word-wrap: break-word;
+  margin-bottom: 10px;
+}
+
 #post-message{
   margin-left: 58px;
   word-wrap: break-word;
 }
+
 
 @media (max-width: 400px){
   #img-logo{
@@ -146,6 +153,14 @@ textarea {
 
   #post-message{
     margin-left: 34px;
+    font-size: 0.8em;
     word-wrap: break-word;
+  }
+
+  #reply-message{
+    margin-left: 34px;
+    font-size: 0.8em;
+    word-wrap: break-word;
+    margin-bottom: 10px;
   }
 }
