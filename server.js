@@ -16,7 +16,6 @@ var mode = {
 };
 var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
-var hashTagParser = require('./lib/hashtagparser.js');
 var dbAccess = require('./lib/dbAccess/dbAccess');
 var config = require('./config')();
 
@@ -78,23 +77,19 @@ app.get('/', google.ensureAuthenticated, function (req, res) {
 });
 
 app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
-  /*
   chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
-    console.log(hashtags);
-
+    console.log(tagWithPosts);
     res.render('hashtags', {
+      user: req.user || {
+        identifier: '1',
+        displayName: 'not authenticated',
+        emails: ['blaj@blaj.com']
+      },
       name: '#' + tagWithPosts.tag,
-      // TODO: I don't get this, shouldn't this be "posts"
-      // and not "hashtags"?
-      // I send in a hashtags and ... get a list of all post it exists in?
-      // I thought so and have now change it into that, but then the
-      // property name below here should be changed too, right?
-      // And what are we returning btw, the message?
-      // I'm confused and have probably messed this up... Sorry
-      hashtags: JSON.stringify(tagWithPosts.posts)
+      internet: config.internet,
+      posts: tagWithPosts.posts
     });
   });
-*/
 });
 
 app.get('/login', function (req, res) {
