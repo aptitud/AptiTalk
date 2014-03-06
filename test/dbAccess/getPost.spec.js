@@ -17,7 +17,7 @@ describe("Getting posts", function () {
 		});
 
 		it("gets a post by id", function (done) {
-			dbAccess.addPost(testHelpers.USERNAME, testHelpers.MESSAGE, testHelpers.getHashTagsFromMessage, function (result) {
+			dbAccess.addPost(testHelpers.USERNAME, testHelpers.MESSAGE, testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
 				var id = result.data._id;
 
 				var postFromDb = dbAccess.getPostById(id, function (result) {

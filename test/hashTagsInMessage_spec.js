@@ -5,8 +5,8 @@ var testHelpers = require("./dbAccess/testHelpers.js");
 
 describe('Hashtags in posts or replies', function () {
   before(function (done) {
-      testHelpers.connectMongo();
-      done();
+    testHelpers.connectMongo();
+    done();
   });
 
   after(function (done) {
@@ -19,6 +19,15 @@ describe('Hashtags in posts or replies', function () {
       var hashtag = 'this #aptitalk is the best';
       var message = hashTagParser.toStaticHTML(hashtag);
       message.should.equal('this<a href=\"/hashtags/aptitalk\" target=\"_blank\"> #aptitalk</a> is the best');
+      done();
+    });
+  });
+
+  describe('When a user posts a message starting with a hashtag', function () {
+    it('the hashtag should be clickable in message', function (done) {
+      var hashtag = '#aptitålk is the best';
+      var message = hashTagParser.toStaticHTML(hashtag);
+      message.should.equal('<a href=\"/hashtags/aptitålk\" target=\"_blank\">#aptitålk</a> is the best');
       done();
     });
   });
@@ -77,8 +86,8 @@ describe('Hashtags in posts or replies', function () {
       chat.createPost('hugo', 'I think #aptitalk rocks', function (post) {
         chat.createPost('marcus', 'I think #aptitalk rocks indeeed', function (post) {
           chat.getPostsForHashtag('aptitalk', function (hashtag) {
-              hashtag.posts.length.should.be.equal(2);
-              done();
+            hashtag.posts.length.should.be.equal(2);
+            done();
           });
         });
       });

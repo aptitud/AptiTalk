@@ -2,7 +2,6 @@ var should = require('should');
 var chat = require('../lib/chat.js');
 var testHelpers = require("./dbAccess/testHelpers.js");
 
-
 describe('Posts and replies', function () {
   before(function (done) {
     testHelpers.connectMongo();
