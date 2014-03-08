@@ -44,11 +44,12 @@ In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm test`
 
 Contribute
 ----------
-Please file any issues under issues and use branh/pull request to get new features/fixes into master
+Please file any issues under issues and use branch/pull request to get new features/fixes into master
 
 Dev settings
 ------------
 We use space instead of tabs as indentation
+
 We use 2 spaces instead of 4
 
 Thanks
