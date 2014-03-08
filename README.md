@@ -24,4 +24,37 @@ Setup Windows Environment
   ```
 5. Install Node using Chocolatey - cinst nodejs
 6. Install MongoDB using Chocolatey - cinst mongodb
-7. 
+7. Go to the AptiTalk repo `C:\Git>cd AptiTalk`
+7. In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm install`
+8. In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm install nodemon -g`
+
+Start AptiTalk (Dev mode)
+-------------------------
+In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `nodemon server.js`
+This will start AptiTalk in dev mode see https://github.com/aptitud/AptiTalk/blob/master/config/index.js for more info
+
+Start AptiTalk (Prod mode)
+--------------------------
+In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm start`
+This will start AptiTalk in prod mode see https://github.com/aptitud/AptiTalk/blob/master/config/index.js for more info
+
+Run Tests
+---------
+In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm test`
+
+Contribute
+----------
+Please file any issues under issues and use branh/pull request to get new features/fixes into master
+
+Dev settings
+------------
+We use space instead of tabs as indentation
+We use 2 spaces instead of 4
+
+Thanks
+
+
+
+
+
+
