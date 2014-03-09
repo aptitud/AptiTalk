@@ -49,6 +49,22 @@ describe("Replying to posts", function () {
 		});
 	});
 
+	it("adds replies to a reply (threaded replies)", function (done) {
+		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
+			var id = result.data._id;
+			testHelpers.addTestReply(id, "Hugo", "Tjääääna du'ra!", function (result) {
+				var replyId = result.data._id;
+
+				testHelpers.addTestReply(replyId, "Marcus", "Asså ba tjena!", function (result) {
+					testHelpers.validateOkResult(result);
+					validateNumberOfReplies(id, 1);
+					validateNumberOfReplies(replyId, 1);
+					done();
+				});
+			});
+		});
+	});
+
 	it("validates the presence of username", function (done) {
 		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
 			var id = result.data._id;
