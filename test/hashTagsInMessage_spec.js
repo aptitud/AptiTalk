@@ -23,6 +23,15 @@ describe('Hashtags in posts or replies', function () {
     });
   });
 
+  describe('When a user posts a message starting with a hashtag', function () {
+    it('the hashtag should be clickable in message', function (done) {
+      var hashtag = '#aptitålk is the best';
+      var message = hashTagParser.toStaticHTML(hashtag);
+      message.should.equal('<a href=\"/hashtags/aptitålk\" target=\"_blank\">#aptitålk</a> is the best');
+      done();
+    });
+  });
+
   describe('When a user posts a message containing a hashtag with swedish letters', function () {
     it('the hashtag should be clickable in message', function (done) {
       var hashtag = 'denna #aptitalk #äÄr #öÖverlägsen #påÅ';

@@ -34,7 +34,13 @@ var validateOkResult = function (result) {
   result.errorMessage.should.be.empty;
   should.exists(result.data);
 };
+
 module.exports.validateOkResult = validateOkResult;
+
+var fakeXssIt = function (message) {
+  return message;
+};
+module.exports.fakeXssIt = fakeXssIt;
 
 module.exports.deleteAll = function () {
   Post.remove({}, function (err) {
@@ -67,11 +73,12 @@ var getHashTagsFromMessage = function (message) {
 module.exports.getHashTagsFromMessage = getHashTagsFromMessage;
 
 var addTestPost = function (username, message, cb) {
-  dbAccess.addPost(username, message, getHashTagsFromMessage, function (result) {
+  dbAccess.addPost(username, message, fakeXssIt, getHashTagsFromMessage, function (result) {
     validateOkResult(result);
     cb(result);
   });
 };
+
 module.exports.addTestPost = addTestPost;
 
 module.exports.addTestPosts = function (numberOfPosts, callback) {
