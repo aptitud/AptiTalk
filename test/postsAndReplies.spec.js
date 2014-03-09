@@ -113,10 +113,10 @@ describe('Posts and replies', function () {
   });
 
   describe('When AptiTalk stores a post', function () {
+    var user = { name : 'hugo'};
     var message = 'Hello World! Hallå Världen!';
-    it('the post should be accessible from the post._id', function (done) {
-      var user = { name : 'hugo'};
 
+    it('the post should be accessible from the post._id', function (done) {
       chat.createPost(user, message, function (post) {
         chat.getPost(post._id, function (postFromDb) {
           should.exists(postFromDb);
