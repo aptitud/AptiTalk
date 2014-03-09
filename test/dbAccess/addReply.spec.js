@@ -27,44 +27,44 @@ describe("Replying to posts", function () {
     });
   }
 
-  it("adds a simple reply to a post", function (done) {
-    testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-      var id = result.data._id;
-      dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
-        testHelpers.validateOkResult(result);
-        validateNumberOfReplies(id, 1);
-        done();
-      });
-    });
-  });
-  it("adds several replies to a post", function (done) {
-    testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-      var id = result.data._id;
-      dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
-        dbAccess.addReply(id, "Per", "Tjääääna du'ra!", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
-          testHelpers.validateOkResult(result);
-          validateNumberOfReplies(id, 2);
-          done();
-        });
-      });
-    });
-  });
-  it("validates the presence of username", function (done) {
-    testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-      var id = result.data._id;
-      dbAccess.addReply(id, "", "Tjääääna du'ra!", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
-        testHelpers.validateErrorResult(result, "Username");
-        done();
-      });
-    });
-  });
-  it("validates the presence of a message", function (done) {
-    testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-      var id = result.data._id;
-      dbAccess.addReply(id, "Hugo", "", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
-        testHelpers.validateErrorResult(result, "Message");
-        done();
-      });
-    });
-  });
+	function validateNumberOfHashtagsOfReply(id, expectedNumberOfHashtags) {
+		dbAccess.getPostById(id, function (result) {
+			testHelpers.validateOkResult(result);
+			result.data.replies.length.should.equal(1);
+			result.data.replies[0].hashtags.length.should.equal(expectedNumberOfReplies);
+		});
+	}
+
+
+	it("adds replies to a post", function (done) {
+		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
+			var id = result.data._id;
+			testHelpers.addTestReply(id, "Hugo", "Tjääääna du'ra!", function (result) {
+				testHelpers.addTestReply(id, "Marcus", "Asså ba tjena!", function (result) {
+					testHelpers.validateOkResult(result);
+					validateNumberOfReplies(id, 2);
+					done();
+				});
+			});
+		});
+	});
+
+	it("validates the presence of username", function (done) {
+		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
+			var id = result.data._id;
+			testHelpers.addTestReply(id, "", "Tjääääna du'ra!", function (result) {
+				testHelpers.validateErrorResult(result, "Username");
+				done();
+			});
+		});
+	});
+	it("validates the presence of a message", function (done) {
+		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
+			var id = result.data._id;
+			testHelpers.addTestReply(id, "Hugo", "", function (result) {
+				testHelpers.validateErrorResult(result, "Message");
+				done();
+			});
+		});
+	});
 });

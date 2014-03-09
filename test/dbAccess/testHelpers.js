@@ -3,8 +3,6 @@ var should = require("should");
 var dbAccess = require("../../lib/dbAccess/dbAccess");
 var model = require("../../lib/dbAccess/model.js");
 var config = require("../../config")("test");
-var Hashtag = model.Hashtag;
-var Reply = model.Reply;
 var Post = model.Post;
 
 var USERNAME = "Marcus";
@@ -42,17 +40,11 @@ var fakeXssIt = function (message) {
 };
 module.exports.fakeXssIt = fakeXssIt;
 
+
 module.exports.deleteAll = function () {
-  Post.remove({}, function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
-  Reply.remove({}, function (err) {
-    if (err) {
-      console.log(err);
-    }
-  });
+	Post.remove({}, function (err) {
+		if(err) console.log("Couldn't delete all documents\n" + err);
+	});
 };
 
 var getHashTagsFromMessage = function (message) {
@@ -66,10 +58,8 @@ var getHashTagsFromMessage = function (message) {
       }
     }
   }
-
   return hashs;
 };
-
 module.exports.getHashTagsFromMessage = getHashTagsFromMessage;
 
 var addTestPost = function (username, message, cb) {
@@ -78,8 +68,14 @@ var addTestPost = function (username, message, cb) {
     cb(result);
   });
 };
-
 module.exports.addTestPost = addTestPost;
+
+var addTestReply = function (id, username, message, cb) {
+  dbAccess.addReply(id, username, message, fakeXssIt, getHashTagsFromMessage, function (result) {
+    cb(result);
+  });
+};
+module.exports.addTestReply = addTestReply;
 
 module.exports.addTestPosts = function (numberOfPosts, callback) {
   var i = 0;

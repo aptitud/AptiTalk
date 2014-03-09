@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon server.js prod",
-    "test": "mocha -u bdd -R spec --recursive"
+    "test": "mocha -u bdd -b -R spec --recursive"
   },
   "engine": "node >= 0.10.25",
   "dependencies": {
