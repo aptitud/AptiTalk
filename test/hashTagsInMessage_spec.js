@@ -76,6 +76,24 @@ describe('Hashtags in posts or replies', function () {
     });
   });
 
+  describe('When a user posts a message containing 3 of the same hashtags', function () {
+    beforeEach(function (done) {
+      testHelpers.deleteAll();
+      done();
+    });
+
+    it('the post should have 1 hashtag in the datastructure', function (done) {
+      var message = 'this #aptitalk #aptitalk #aptitalk is the #best';
+      var user = 'hugo';
+      chat.createPost(user, message, function (post) {
+        post.hashtags.length.should.equal(2);
+        post.hashtags[0].should.equal('aptitalk');
+        post.hashtags[1].should.equal('best');
+        done();
+      });
+    });
+  });
+
   describe('When a user posts a message containing hashtags', function () {
     beforeEach(function (done) {
       testHelpers.deleteAll();

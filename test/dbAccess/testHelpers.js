@@ -1,7 +1,6 @@
 var mongoose = require("mongoose");
 var should = require("should");
 var dbAccess = require("../../lib/dbAccess/dbAccess");
-var xss = require("../../lib/xss.js");
 var model = require("../../lib/dbAccess/model.js");
 var config = require("../../config")("test");
 var Hashtag = model.Hashtag;
@@ -41,22 +40,7 @@ module.exports.validateOkResult = validateOkResult;
 var fakeXssIt = function (message) {
   return message;
 };
-
 module.exports.fakeXssIt = fakeXssIt;
-
-var getHashTagsFromMessage = function (message) {
-  var hashs = [];
-  var i = 0;
-  var words = message.split(" ");
-  for (i = 0; i < words.length; i++) {
-    if (words[i][0] === "#") {
-      hashs.push(words[i]);
-    }
-  }
-
-  return hashs;
-};
-module.exports.getHashTagsFromMessage = getHashTagsFromMessage;
 
 module.exports.deleteAll = function () {
   Post.remove({}, function (err) {
@@ -70,6 +54,23 @@ module.exports.deleteAll = function () {
     }
   });
 };
+
+var getHashTagsFromMessage = function (message) {
+  var hashs = [];
+  var i = 0;
+  var words = message.split(" ");
+  for (i = 0; i < words.length; i++) {
+    if (words[i][0] === "#") {
+      if (hashs.indexOf(words[i]) === -1) {
+        hashs.push(words[i]);
+      }
+    }
+  }
+
+  return hashs;
+};
+
+module.exports.getHashTagsFromMessage = getHashTagsFromMessage;
 
 var addTestPost = function (username, message, cb) {
   dbAccess.addPost(username, message, fakeXssIt, getHashTagsFromMessage, function (result) {

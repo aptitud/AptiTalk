@@ -88,4 +88,13 @@ describe("Adding posts", function () {
       done();
     });
   });
+  it("creates an array with 1 hashtag for 2 or more of the same hashtags in the message", function (done) {
+    dbAccess.addPost(testHelpers.USERNAME, "and now 3 of the #samehash #samehash #samehash tags", testHelpers.fakeXssIt, testHelpers.getHashTagsFromMessage, function (result) {
+      testHelpers.validateOkResult(result);
+      should.exists(result.data.hashtags);
+      result.data.hashtags.length.should.equal(1);
+      result.data.hashtags[0].should.equal("#samehash");
+      done();
+    });
+  });
 });
