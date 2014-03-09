@@ -36,7 +36,7 @@ module.exports.validateOkResult = validateOkResult;
 
 module.exports.deleteAll = function () {
 	Post.remove({}, function (err) {
-		if(err) console.log(err);
+		if(err) console.log("Couldn't delete all documents\n" + err);
 	});
 };
 

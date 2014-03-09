@@ -55,7 +55,7 @@ describe('Posts and replies', function () {
       done();
     });
 
-    var user = 'hugo';
+    var user = { name : 'hugo'};
     var message = 'Hello World! Hallå Världen!';
     var replyMessage = 'Svar på öööh';
 
@@ -70,14 +70,14 @@ describe('Posts and replies', function () {
     it('the reply should have the correct user', function (done) {
       chat.createPost(user, message, function (post) {
         chat.replyPost(post._id, user, replyMessage, function (reply) {
-          reply.username.should.equal(user);
+          reply.username.should.equal(user.name);
           done();
         });
       });
     });
     it('the reply should have the correct message', function (done) {
       chat.createPost(user, message, function (post) {
-        chat.replyPost(post._id, user, replyMessage, function (reply) {
+        chat.replyPost(post._id, user, replyMessage,  function (reply) {
           reply.message.should.equal(replyMessage);
           done();
         });
@@ -99,14 +99,6 @@ describe('Posts and replies', function () {
         });
       });
     });
-    it('the reply should have a reference to the post', function (done) {
-      chat.createPost(user, message, function (post) {
-        chat.replyPost(post._id, user, replyMessage, function (reply) {
-          reply.parentPostId.should.eql(post._id.toString());
-          done();
-        });
-      });
-    });
     it('the post should have a reference to the reply', function (done) {
       chat.createPost(user, message, function (post) {
         chat.replyPost(post._id, user, replyMessage, function (reply) {
@@ -121,13 +113,14 @@ describe('Posts and replies', function () {
   });
 
   describe('When AptiTalk stores a post', function () {
-    var user = 'hugo';
     var message = 'Hello World! Hallå Världen!';
     it('the post should be accessible from the post._id', function (done) {
+      var user = { name : 'hugo'};
+
       chat.createPost(user, message, function (post) {
         chat.getPost(post._id, function (postFromDb) {
           should.exists(postFromDb);
-          postFromDb.username.should.equal(user);
+          postFromDb.username.should.equal(user.name);
           done();
         });
       });

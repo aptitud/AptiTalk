@@ -36,21 +36,11 @@ describe("Replying to posts", function () {
 	}
 
 
-	it("adds a simple reply to a post", function (done) {
+	it("adds replies to a post", function (done) {
 		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
 			var id = result.data._id;
 			dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", testHelpers.getHashTagsFromMessage, function (result) {
-				testHelpers.validateOkResult(result);
-				validateNumberOfReplies(id, 1);
-				done();
-			});
-		});
-	});
-	it("adds several replies to a post", function (done) {
-		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-			var id = result.data._id;
-			dbAccess.addReply(id, "Hugo", "Tjääääna du'ra!", function (result) {
-				dbAccess.addReply(id, "Per", "Tjääääna du'ra!", function (result) {
+				dbAccess.addReply(id, "Marcus", "Asså ba tjena!", testHelpers.getHashTagsFromMessage, function (result) {
 					testHelpers.validateOkResult(result);
 					validateNumberOfReplies(id, 2);
 					done();
@@ -58,10 +48,11 @@ describe("Replying to posts", function () {
 			});
 		});
 	});
+
 	it("validates the presence of username", function (done) {
 		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
 			var id = result.data._id;
-			dbAccess.addReply(id, "", "Tjääääna du'ra!", function (result) {
+			dbAccess.addReply(id, "", "Tjääääna du'ra!", testHelpers.getHashTagsFromMessage, function (result) {
 				testHelpers.validateErrorResult(result, "Username");
 				done();
 			});
@@ -70,7 +61,7 @@ describe("Replying to posts", function () {
 	it("validates the presence of a message", function (done) {
 		testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
 			var id = result.data._id;
-			dbAccess.addReply(id, "Hugo", "", function (result) {
+			dbAccess.addReply(id, "Hugo", "", testHelpers.getHashTagsFromMessage, function (result) {
 				testHelpers.validateErrorResult(result, "Message");
 				done();
 			});
