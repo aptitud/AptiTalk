@@ -58,5 +58,12 @@ describe("Users", function () {
         done();
       });
     });
+
+    it("the user must have an identifier, name and email", function (done) {
+      dbAccess.addUser("", "", "", function (result) {
+        testHelpers.validateErrorResult(result, "User must");
+        done();
+      });
+    });
   });
 });
