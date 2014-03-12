@@ -21,25 +21,19 @@ describe("Users", function () {
 
   describe("When adding a new user", function () {
     it("adds a correct user", function (done) {
-      var googleId = 'https://www.google.com/accounts/o8/id?id=xxx';
-      var name = 'John Doe';
-      var email = 'john.doe@unknown.com';
-      dbAccess.addUser(googleId, name, email, function (result) {
+      dbAccess.addUser(testHelpers.TESTUSER.identifier, testHelpers.TESTUSER.name, testHelpers.TESTUSER.email, function (result) {
         testHelpers.validateOkResult(result);
         should.exists(result.data._id);
-        result.data.identifier.should.be.equal(googleId);
-        result.data.name.should.be.equal(name);
-        result.data.email.should.be.equal(email);
+        result.data.identifier.should.be.equal(testHelpers.TESTUSER.identifier);
+        result.data.name.should.be.equal(testHelpers.TESTUSER.name);
+        result.data.email.should.be.equal(testHelpers.TESTUSER.email);
         done();
       });
     });
 
     it("if user already exists then it should not add a new user", function (done) {
-      var googleId = 'https://www.google.com/accounts/o8/id?id=xxx';
-      var name = 'John Doe';
-      var email = 'john.doe@unknown.com';
-      dbAccess.addUser(googleId, name, email, function (result) {
-        dbAccess.addUser(googleId, name, email, function (result) {
+      dbAccess.addUser(testHelpers.TESTUSER.identifier, testHelpers.TESTUSER.name, testHelpers.TESTUSER.email, function (result) {
+        dbAccess.addUser(testHelpers.TESTUSER.identifier, testHelpers.TESTUSER.name, testHelpers.TESTUSER.email, function (result) {
           dbAccess.getAllUsers(function (users) {
             testHelpers.validateOkResult(users);
             users.data.length.should.equal(1);
@@ -50,18 +44,21 @@ describe("Users", function () {
     });
 
     it("the user should get a niffty nickname", function (done) {
-      var googleId = 'https://www.google.com/accounts/o8/id?id=xxx';
-      var name = 'John Doe';
-      var email = 'john.doe@unknown.com';
-      dbAccess.addUser(googleId, name, email, function (result) {
+      dbAccess.addUser(testHelpers.TESTUSER.identifier, testHelpers.TESTUSER.name, testHelpers.TESTUSER.email, function (result) {
         result.data.nickname.should.equal('johndoe');
         done();
       });
     });
 
     it("the user must have an identifier, name and email", function (done) {
-      dbAccess.addUser("", "", "", function (result) {
+      dbAccess.addUser("", testHelpers.TESTUSER.name, testHelpers.TESTUSER.email, function (result) {
         testHelpers.validateErrorResult(result, "User must");
+        dbAccess.addUser(testHelpers.TESTUSER.identifier, "", testHelpers.TESTUSER.email, function (result) {
+          testHelpers.validateErrorResult(result, "User must");
+          dbAccess.addUser(testHelpers.TESTUSER.identifier, testHelpers.TESTUSER.name, "", function (result) {
+            testHelpers.validateErrorResult(result, "User must");
+          });
+        });
         done();
       });
     });

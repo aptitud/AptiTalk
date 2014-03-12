@@ -6,6 +6,13 @@ var config = require("../../config")("test");
 var Post = model.Post;
 var User = model.User;
 
+var TESTUSER = {
+  identifier: "https://www.google.com/accounts/o8/id?id=xxx",
+  name: "John Doe",
+  email: "john.doe@unknown.com"
+};
+module.exports.TESTUSER = TESTUSER;
+
 var USERNAME = "Marcus";
 var MESSAGE = "Tjäääna!";
 
