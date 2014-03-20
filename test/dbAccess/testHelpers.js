@@ -4,6 +4,7 @@ var dbAccess = require("../../lib/dbAccess/dbAccess");
 var model = require("../../lib/dbAccess/model.js");
 var config = require("../../config")("test");
 var Post = model.Post;
+var User = model.User;
 
 var USERNAME = "Marcus";
 var MESSAGE = "Tjäääna!";
@@ -42,9 +43,16 @@ module.exports.fakeXssIt = fakeXssIt;
 
 
 module.exports.deleteAll = function () {
-	Post.remove({}, function (err) {
-		if(err) console.log("Couldn't delete all documents\n" + err);
-	});
+  Post.remove({}, function (err) {
+    if (err) {
+      console.log("Couldn't delete all documents\n" + err);
+    }
+  });
+  User.remove({}, function (err) {
+    if (err) {
+      console.log("Couldn't delete all documents\n" + err);
+    }
+  });
 };
 
 var getHashTagsFromMessage = function (message) {

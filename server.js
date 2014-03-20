@@ -29,11 +29,19 @@ dbAccess.connectToDb(config.mongoUrl);
 //   have a database of user records, the complete Google profile is serialized
 //   and deserialized.
 passport.serializeUser(function (user, done) {
-  done(null, user);
+  console.log('Serializing user:', user);
+  dbAccess.serializeUser(user, function (err, user) {
+    console.log('User serialized:', user);
+    done(err, user);
+  });
 });
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
+passport.deserializeUser(function (id, done) {
+  console.log('Deserializing user with id:', id);
+  dbAccess.deserializeUser(id, function (err, user) {
+    console.log('User deserialized:', user);
+    done(err, user);
+  });
 });
 
 app.configure(function () {

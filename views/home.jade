@@ -21,9 +21,9 @@ html
           div.jumbotron#profile
             img#img-profile-heading(src="img/noprofile.jpg")
             h2 #{user.displayName}
-            span.hidden#userId #{user.identifier}
-            span.hidden#userName #{user.displayName}
-            span.hidden#userEmail #{user.emails[0].value}
+            span.hidden#userId #{user._id}
+            span.hidden#userName #{user.nickName}
+            span.hidden#userEmail #{user.email}
         div.row
           div.panel.panel-default
             div.panel-heading
