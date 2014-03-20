@@ -116,13 +116,39 @@ module.exports.getAllPosts = function (pageNumber, callback) {
 };
 
 module.exports.addReply = function (id, username, message, xssIt, hashtagParser, callback) {
+<<<<<<< HEAD
+  addPost(username, message, xssIt, hashtagParser, function (result) {
+=======
   getPostById(id, function (result) {
+>>>>>>> master
     if (result.success === false) {
       callback(result);
       return;
     }
     var replyLevel = result.data.replyLevel + 1;
 
+<<<<<<< HEAD
+    var reply = result.data;
+
+    Post.update({
+        _id: id
+      }, {
+        $push: {
+          replies: reply
+        }
+      }, {
+        safe: true
+      },
+      function (err, result) {
+        if (err) {
+          callback(createError("Error updating post with reply."));
+          return;
+        }
+
+        callback(createSuccess(reply));
+      });
+  });
+=======
     internalAddPost(username, message, replyLevel, xssIt, hashtagParser, function (result) {
       if (result.success === false) {
         callback(result);
@@ -151,6 +177,7 @@ module.exports.addReply = function (id, username, message, xssIt, hashtagParser,
     });
 
   })
+>>>>>>> master
 };
 
 module.exports.getPostsForHashtag = function (hashtag, callback) {

@@ -2,7 +2,7 @@ var mongoDevUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongod
 var mongoStageUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Test";
 var mongoProdUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || "mongodb://localhost:27017/AptiTalk_Prod";
 var appPort = Number(process.env.PORT || 2013);
-var realm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://192.168.1.4:' + appPort);
+var realm = process.env.PORT ? 'http://lit-tundra-5550.herokuapp.com' : ('http://172.20.10.2:' + appPort);
 var returnUrl = (realm + '/auth/google/return');
 
 var config = {

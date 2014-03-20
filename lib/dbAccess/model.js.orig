@@ -9,8 +9,8 @@ var Post = mongoose.model("Post", {
 		type: Schema.Types.ObjectId,
 		ref: 'Post'
 	}],
-	hashtags: [String],
-	replyLevel: Number
+<<<<<<< HEAD
+	hashtags: [String]
 });
 
 module.exports.Post = Post;
@@ -25,3 +25,10 @@ var User = mongoose.model("User", {
 });
 
 module.exports.User = User;
+=======
+	hashtags: [String],
+	replyLevel: Number
+});
+
+module.exports.Post = Post;
+>>>>>>> master

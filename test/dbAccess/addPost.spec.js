@@ -27,6 +27,7 @@ describe("Adding posts", function () {
         should.exists(result.data._id);
         result.data.username.should.be.equal(testHelpers.USERNAME);
         result.data.message.should.be.equal(testHelpers.MESSAGE);
+        result.data.replyLevel.should.be.equal(0);
         done();
       });
   });
