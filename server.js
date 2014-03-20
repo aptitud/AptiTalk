@@ -175,11 +175,12 @@ passport.use(new GoogleStrategy({
   }
 
   var email = profile.emails[0].value.toLowerCase();
-  if (email.indexOf("aptitud.se") === -1) {
-    return done("You need to be a valid Aptitud user");
-  }
-  profile.identifier = identifier;
-  console.log(profile);
+  google.verifyUser(email, function (err, isOk) {
+    if (err || isOk === false) {
+      return done(err, null);
+    }
 
-  return done(null, profile);
+    profile.identifier = identifier;
+    return done(null, profile);
+  });
 }));
