@@ -10,10 +10,6 @@ var passport = require('passport'),
   GoogleStrategy = require('passport-google').Strategy;
 
 var jade = require('jade');
-var mode = {
-  datasource: 'inmemory',
-  debug: false
-};
 var chat = require('./lib/chat.js');
 var google = require('./lib/google.js');
 var dbAccess = require('./lib/dbAccess/dbAccess');
@@ -74,9 +70,9 @@ app.get('/', google.ensureAuthenticated, function (req, res) {
     console.log('SERVER - posts', posts);
     res.render('home', {
       user: req.user || {
-        identifier: '1',
-        displayName: 'not authenticated',
-        emails: ['blaj@blaj.com']
+        _id: '1',
+        nickName: 'not authenticated',
+        email: ['blaj@blaj.com']
       },
       internet: config.internet,
       posts: posts
@@ -89,9 +85,9 @@ app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
     console.log(tagWithPosts);
     res.render('hashtags', {
       user: req.user || {
-        identifier: '1',
-        displayName: 'not authenticated',
-        emails: ['blaj@blaj.com']
+        _id: '1',
+        nickName: 'not authenticated',
+        email: ['blaj@blaj.com']
       },
       name: '#' + tagWithPosts.tag,
       internet: config.internet,
@@ -144,7 +140,7 @@ console.log("Authentication:" + config.authentication);
 console.log("Internet:" + config.internet);
 
 io.sockets.on('connection', function (socket) {
-  chat.connection(io, socket, mode);
+  chat.connection(io, socket);
 });
 
 // Passport session setup.
