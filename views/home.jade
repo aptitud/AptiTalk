@@ -22,7 +22,7 @@ html
             if user.picture
               img#img-profile-heading(src=user.picture)
             else
-              img#img-profile-heading(src="img/noprofile.jpg")                
+              img#img-profile-heading(src="img/noprofile.jpg")
             h2 #{user.displayName}
             span.hidden#userId #{user._id}
             span.hidden#userName #{user.nickName}
@@ -43,7 +43,10 @@ html
                   li(class='list-group-item list-group-item')
                     div(id='post-' + post._id)
                       div#post-image
-                        img#img-post(src='img/noprofile.jpg')
+                        if post.picture
+                          img#img-post(src=post.picture)
+                        else
+                          img#img-post(src='img/noprofile.jpg')
                       div#post-user #{post.username}
                       time#post-time(datetime=post.time.toISOString())
                       div#post-message !{post.message}
@@ -54,11 +57,14 @@ html
                   each reply in post.replies.reverse()
                     li(class='list-group-item list-group-item-reply')
                       div(id='reply-' + reply.parentPostId)
-                        div#post-image
+                      div#post-image
+                        if post.picture
+                          img#img-post(src=post.picture)
+                        else
                           img#img-post(src='img/noprofile.jpg')
-                        div#post-user #{reply.username}
-                        time#post-time(datetime=reply.time.toISOString())
-                        div#post-message !{reply.message}
+                      div#post-user #{reply.username}
+                      time#post-time(datetime=reply.time.toISOString())
+                      div#post-message !{reply.message}
     if internet
       script(src="https://code.jquery.com/jquery-1.10.2.min.js")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")

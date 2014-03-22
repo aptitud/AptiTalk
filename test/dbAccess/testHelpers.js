@@ -12,6 +12,20 @@ var MESSAGE = "Tjäääna!";
 module.exports.USERNAME = USERNAME;
 module.exports.MESSAGE = MESSAGE;
 
+module.exports.googleUser = {
+  displayName: 'Hugo Häggmark',
+  email: 'hugo.haggmark@aptitud.se',
+  name: {
+    familyName: 'Häggmark',
+    givenName: 'Hugo'
+  },
+  id: '12345678ABCDEFGH',
+  image: {
+    url: 'https://lh3.googleusercontent.com/photo.jpg?sz=50'
+  },
+  nickName: 'hugohaggmark'
+};
+
 module.exports.connectMongo = function () {
   dbAccess.connectToDb(config.mongoUrl);
 };
