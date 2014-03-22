@@ -28,12 +28,12 @@ body{
 
 #talk{
   padding: 1px 15px 1px 15px;
-  background-color: #369cb4;
+  background-color: #e0e0e0;
   border-bottom: 1px solid #999;
 }
 
 .panel-body{
-  background-color: #369cb4;
+  background-color: #e0e0e0;
 }
 
 .input-group{
@@ -128,13 +128,13 @@ textarea {
   }
   
   .panel-body{
-    background-color: #369cb4;
+    background-color: #e0e0e0;
     padding: 1px;
   }
 
   #talk{
     padding: 1px 1px 1px 1px;
-    background-color: #369cb4;
+    background-color: #e0e0e0;
     border-bottom: 1px solid #999;
   }
 
