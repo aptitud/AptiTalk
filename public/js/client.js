@@ -108,3 +108,7 @@ socket.on('postAdded', function (postAdded) {
   initButtonEvents();
   $('time').timeago();
 });
+
+socket.on('sessionId', function (socketId) {
+  socket.emit('user', theUser, socketId);
+});
