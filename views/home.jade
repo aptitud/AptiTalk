@@ -19,7 +19,10 @@ html
       div.col-sm-12
         div.row
           div.jumbotron#profile
-            img#img-profile-heading(src="img/noprofile.jpg")
+            if user.picture
+              img#img-profile-heading(src=user.picture)
+            else
+              img#img-profile-heading(src="img/noprofile.jpg")                
             h2 #{user.displayName}
             span.hidden#userId #{user._id}
             span.hidden#userName #{user.nickName}
@@ -27,7 +30,7 @@ html
         div.row
           div.panel.panel-default
             div.panel-heading
-              h3.panel-title Post 
+              h3.panel-title Posts 
             div#talk
               div.input-group.input-group-sm
                 textarea.form-control(rows='5')#input-primary

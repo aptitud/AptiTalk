@@ -86,7 +86,8 @@ $(function () {
   theUser = {
     id: $('#userId').text(),
     name: $('#userName').text(),
-    email: $('#userEmail').text()
+    email: $('#userEmail').text(),
+    picture: $('#img-profile-heading').attr('src')
   };
   initButtonEvents();
   $('#input-primary').focus();

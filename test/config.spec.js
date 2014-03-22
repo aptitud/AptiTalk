@@ -11,10 +11,10 @@ describe("Configuration", function () {
     config.mongoUrl.should.not.be.emtpy;
     should.exists(config.appPort);
     config.appPort.should.not.be.emtpy;
-    should.exists(config.realm);
-    config.realm.should.not.be.emtpy;
-    should.exists(config.returnUrl);
-    config.returnUrl.should.not.be.emtpy;
+    should.exists(config.client);
+    config.client.should.not.be.emtpy;
+    should.exists(config.api);
+    config.api.should.not.be.emtpy;
     should.exists(config.authentication);
     config.authentication.should.not.be.emtpy;
     should.exists(config.internet);

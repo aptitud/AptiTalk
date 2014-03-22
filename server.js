@@ -6,8 +6,7 @@ var http = require('http'),
   io = require('socket.io').listen(app);
 
 var passport = require('passport'),
-  util = require('util'),
-  GoogleStrategy = require('passport-google').Strategy;
+  util = require('util');
 
 var jade = require('jade');
 var chat = require('./lib/chat.js');
@@ -100,35 +99,11 @@ app.get('/login', function (req, res) {
   console.log('req.user', req.user);
   res.render('login', {
     user: req.user,
-    internet: config.internet
+    internet: config.internet,
+    client_id: '724017344869-j5tsp6sbus8b052q9cpcjhhv1f1m34u0.apps.googleusercontent.com'
   });
 });
 
-// GET /auth/google
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  The first step in Google authentication will involve redirecting
-//   the user to google.com.  After authenticating, Google will redirect the
-//   user back to this application at /auth/google/return
-app.get('/auth/google',
-  passport.authenticate('google', {
-    failureRedirect: '/login'
-  }),
-  function (req, res) {
-    res.redirect('/');
-  });
-
-// GET /auth/google/return
-//   Use passport.authenticate() as route middleware to authenticate the
-//   request.  If authentication fails, the user will be redirected back to the
-//   login page.  Otherwise, the primary route function function will be called,
-//   which, in this example, will redirect the user to the home page.
-app.get('/auth/google/return',
-  passport.authenticate('google', {
-    failureRedirect: '/login'
-  }),
-  function (req, res) {
-    res.redirect('/');
-  });
 
 app.listen(config.appPort);
 
@@ -143,40 +118,24 @@ io.sockets.on('connection', function (socket) {
   chat.connection(io, socket);
 });
 
-// Passport session setup.
-//   To support persistent login sessions, Passport needs to be able to
-//   serialize users into and deserialize users out of the session.  Typically,
-//   this will be as simple as storing the user ID when serializing, and finding
-//   the user by ID when deserializing.  However, since this example does not
-//   have a database of user records, the complete Google profile is serialized
-//   and deserialized.
-passport.serializeUser(function (user, done) {
-  done(null, user);
-});
+var GooglePlusStrategy = require('passport-google-plus');
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
-});
+passport.use(new GooglePlusStrategy({
+  clientId: config.client,
+  apiKey: config.api
+}, function (tokens, profile, done) {
 
-// Use the GoogleStrategy within Passport.
-//   Strategies in passport require a `validate` function, which accept
-//   credentials (in this case, an OpenID identifier and profile), and invoke a
-//   callback with a user object.
-passport.use(new GoogleStrategy({
-  returnURL: config.returnUrl,
-  realm: config.realm
-}, function (identifier, profile, done) {
-  if (profile.emails.length === 0) {
-    return done("Not a valid user");
-  }
-
-  var email = profile.emails[0].value.toLowerCase();
-  google.verifyUser(email, function (err, isOk) {
+  google.verifyUser(profile.email, function (err, isOk) {
     if (err || isOk === false) {
       return done(err, null);
     }
 
-    profile.identifier = identifier;
-    return done(null, profile);
+    done(null, profile, tokens);
   });
 }));
+
+app.all('/auth/google/callback', passport.authenticate('google'), function (req, res) {
+  // Return user profile back to client
+  console.log('SERVER - user', req.user);
+  res.send(req.user);
+});
