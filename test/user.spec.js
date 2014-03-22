@@ -6,14 +6,15 @@ var should = require("should");
 describe('User serialization and deserialization', function () {
   var googleUser = {
     displayName: 'Hugo Häggmark',
-    emails: [{
-      value: 'hugo.haggmark@aptitud.se'
-    }],
+    email: 'hugo.haggmark@aptitud.se',
     name: {
       familyName: 'Häggmark',
       givenName: 'Hugo'
     },
-    identifier: 'https://www.google.com/accounts/o8/id?id=xxx'
+    id: '12345678ABCDEFGH',
+    image: {
+      url: 'https://lh3.googleusercontent.com/photo.jpg?sz=50'
+    }
   };
   beforeEach(function (done) {
     testHelpers.deleteAll();
@@ -32,11 +33,11 @@ describe('User serialization and deserialization', function () {
         should.exists(user);
         should.exists(user._id);
         user.displayName.should.equal(googleUser.displayName);
-        user.email.should.equal(googleUser.emails[0].value);
+        user.email.should.equal(googleUser.email);
         user.givenName.should.equal(googleUser.name.givenName);
         user.familyName.should.equal(googleUser.name.familyName);
         user.nickName.should.equal('hugohaggmark');
-        user._id.should.equal(googleUser.identifier);
+        user._id.should.equal(googleUser.id);
         done();
       });
     });
@@ -73,11 +74,11 @@ describe('User serialization and deserialization', function () {
           should.exists(deserializedUser);
           should.exists(deserializedUser._id);
           deserializedUser.displayName.should.equal(googleUser.displayName);
-          deserializedUser.email.should.equal(googleUser.emails[0].value);
+          deserializedUser.email.should.equal(googleUser.email);
           deserializedUser.givenName.should.equal(googleUser.name.givenName);
           deserializedUser.familyName.should.equal(googleUser.name.familyName);
           deserializedUser.nickName.should.equal('hugohaggmark');
-          deserializedUser._id.should.equal(googleUser.identifier);
+          deserializedUser._id.should.equal(googleUser.id);
           done();
         });
       });
