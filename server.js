@@ -109,8 +109,8 @@ app.listen(config.appPort);
 
 console.log("Server listening on port " + config.appPort);
 console.log("AppPort:" + config.appPort);
-console.log("Realm:" + config.realm);
-console.log("ReturnUrl:" + config.returnUrl);
+console.log("Client:" + config.client);
+console.log("Api:" + config.api);
 console.log("Authentication:" + config.authentication);
 console.log("Internet:" + config.internet);
 
