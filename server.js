@@ -100,7 +100,7 @@ app.get('/login', function (req, res) {
   res.render('login', {
     user: req.user,
     internet: config.internet,
-    client_id: '724017344869-j5tsp6sbus8b052q9cpcjhhv1f1m34u0.apps.googleusercontent.com'
+    client_id: config.client
   });
 });
 
