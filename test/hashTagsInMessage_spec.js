@@ -103,8 +103,8 @@ describe('Hashtags in posts or replies', function () {
     it("adds and retrieves hashtags", function (done) {
       chat.createPost('hugo', 'I think #aptitalk rocks', function (post) {
         chat.createPost('marcus', 'I think #aptitalk rocks indeeed', function (post) {
-          chat.getPostsForHashtag('aptitalk', function (hashtag) {
-            hashtag.posts.length.should.be.equal(2);
+          chat.getPostsForHashtag('aptitalk', function (posts) {
+            posts.length.should.be.equal(2);
             done();
           });
         });

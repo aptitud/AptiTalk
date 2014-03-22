@@ -29,7 +29,10 @@ html
                 li(class='list-group-item list-group-item')
                   div(id='post-' + post._id)
                     div#post-image
-                      img#img-post(src='./../img/noprofile.jpg')
+                      if post.picture
+                        img#img-post(src=post.picture)
+                      else
+                        img#img-post(src='img/noprofile.jpg')
                     div#post-user #{post.username}
                     time#post-time(datetime=post.time.toISOString())
                     div#reply-message !{post.message}

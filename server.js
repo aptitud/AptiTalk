@@ -80,17 +80,17 @@ app.get('/', google.ensureAuthenticated, function (req, res) {
 });
 
 app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
-  chat.getPostsForHashtag(req.params.hashtag, function (tagWithPosts) {
-    console.log(tagWithPosts);
+  chat.getPostsForHashtag(req.params.hashtag, function (posts) {
+    console.log(posts);
     res.render('hashtags', {
       user: req.user || {
         _id: '1',
         nickName: 'not authenticated',
         email: ['blaj@blaj.com']
       },
-      name: '#' + tagWithPosts.tag,
+      name: '#' + req.params.hashtag,
       internet: config.internet,
-      posts: tagWithPosts.posts
+      posts: posts
     });
   });
 });
