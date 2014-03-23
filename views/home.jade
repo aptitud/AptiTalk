@@ -58,8 +58,8 @@ html
                     li(class='list-group-item list-group-item-reply')
                       div(id='reply-' + reply.parentPostId)
                       div#post-image
-                        if post.picture
-                          img#img-post(src=post.picture)
+                        if reply.picture
+                          img#img-post(src=reply.picture)
                         else
                           img#img-post(src='img/noprofile.jpg')
                       div#post-user #{reply.username}
