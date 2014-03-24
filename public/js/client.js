@@ -82,8 +82,12 @@ function initButtonEvents() {
   });
 }
 
+$('#posts-row').hide();
+
 socket.on('connect', function () {
   console.log('CLIENT - Connected');
+  $('div.row.loader').hide();
+  $('#posts-row').show();
   theUser = {
     id: $('#userId').text(),
     name: $('#userName').text(),

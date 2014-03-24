@@ -27,7 +27,8 @@ html
             span.hidden#userId #{user._id}
             span.hidden#userName #{user.nickName}
             span.hidden#userEmail #{user.email}
-        div.row
+        div.row.loader Connecting
+        div.row#posts-row          
           div.panel.panel-default
             div.panel-heading
               h3.panel-title Posts 
