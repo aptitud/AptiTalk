@@ -5,8 +5,7 @@ var baseReplyHtml = "<div class=\"input-group input-group-sm\"><textarea id=\"re
 var baseHtml = "<li class=\"list-group-item list-group-item{4}\"><div id=\"{5}-{0}\"><div id=\"post-image\"><img src=\"{6}\" id=\"img-post\"></div><div id=\"post-user\">{1}</div><time id=\"post-time\" datetime=\"{2}\"></time><div id=\"post-message\">{3}</div>";
 var postHtml = baseHtml + baseReplyHtml + liEndTag;
 var replyHtml = baseHtml + liEndTag;
-var postsList = $(posts);
-var thePosts = [];
+var postsList = [];
 var theUser = [];
 
 if (!String.prototype.format) {
@@ -22,13 +21,15 @@ if (!String.prototype.format) {
 function createReply(postId, reply) {
   console.log('CLIENT - createReply', reply);
   console.log('CLIENT - createReply postId', postId);
-  var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', reply.picture ? reply.picture : 'img/noprofile.jpg');
+  var picture = reply.picture || 'img/noprofile.jpg';
+  var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', picture);
   $('#post-' + postId).closest('li').after(r);
 }
 
 function createPost(post) {
   console.log('CLIENT - createPost', post);
-  var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post', post.picture ? post.picture : 'img/noprofile.jpg');
+  var picture = post.picture || 'img/noprofile.jpg';
+  var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post', picture);
   postsList.prepend(p);
 }
 
@@ -81,21 +82,18 @@ function initButtonEvents() {
   });
 }
 
-//Init
-$(function () {
+socket.on('connect', function () {
+  console.log('CLIENT - Connected');
   theUser = {
     id: $('#userId').text(),
     name: $('#userName').text(),
     email: $('#userEmail').text(),
     picture: $('#img-profile-heading').attr('src')
   };
+  postsList = $(posts);
   initButtonEvents();
   $('#input-primary').focus();
   $('time').timeago();
-});
-
-socket.on('connect', function () {
-  console.log('CLIENT - Connected');
 });
 
 socket.on('replyAdded', function (postId, replyAdded) {
