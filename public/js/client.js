@@ -7,6 +7,7 @@ var postHtml = baseHtml + baseReplyHtml + liEndTag;
 var replyHtml = baseHtml + liEndTag;
 var postsList = [];
 var theUser = [];
+var connected = false;
 
 if (!String.prototype.format) {
   String.prototype.format = function () {
@@ -34,6 +35,9 @@ function createPost(post) {
 }
 
 function initButtonEvents() {
+  if (connected === false)
+    return;
+
   $('.btn-primary').click(function (event) {
     var message = $('#input-primary').val();
     if (message !== '') {
@@ -82,12 +86,15 @@ function initButtonEvents() {
   });
 }
 
-$('#posts-row').hide();
+function showPosts() {
+  $('div.row.loader').hide();
+  $('#posts-row').removeClass('transparent-div');
+}
 
 socket.on('connect', function () {
   console.log('CLIENT - Connected');
-  $('div.row.loader').hide();
-  $('#posts-row').show();
+  connected = true;
+  showPosts();
   theUser = {
     id: $('#userId').text(),
     name: $('#userName').text(),

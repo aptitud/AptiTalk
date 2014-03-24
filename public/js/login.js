@@ -1,10 +1,10 @@
 $(document).keypress(function (event) {
 	console.log(event.keyCode);
 	if (event.keyCode === 13) {
-		$('.btn-primary').click();
+		$('#signinButton').click();
 	}
 });
 
-$('.btn-primary').click(function (event) {
+$('#signinButton').click(function (event) {
 	this.click();
 });
