@@ -190,4 +190,5 @@ ul.replies li.more {
     font-size: 3em;
     cursor: pointer;
     color: gray;
+    line-height: 0.7em;
 }

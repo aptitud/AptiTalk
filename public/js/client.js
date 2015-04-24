@@ -1,7 +1,7 @@
 var io;
 var socket = io.connect();
 var liEndTag = "</li>";
-var baseReplyHtml = "<div class=\"input-group input-group-sm\"><textarea id=\"reply-input-{0}\" type=\"text\" class=\"form-control reply-input\"></textarea><span class=\"input-group-btn\"><button id=\"reply-btn-{0}\" class=\"btn btn-info btn-xs\" type=\"button\">Reply</button></span></div>";
+var baseReplyHtml = "<div class=\"input-group input-group-sm\"><textarea id=\"reply-input-{0}\" type=\"text\" class=\"form-control reply-input\"></textarea><span class=\"input-group-btn\"><button id=\"reply-btn-{0}\" class=\"btn btn-info btn-xs\" type=\"button\">Reply</button></span></div><ul class=\"replies\"></ul>";
 var baseHtml = "<li class=\"list-group-item list-group-item{4}\"><div id=\"{5}-{0}\"><div id=\"post-image\"><img src=\"{6}\" id=\"img-post\"></div><div id=\"post-user\">{1}</div><time id=\"post-time\" datetime=\"{2}\"></time><div id=\"post-message\">{3}</div>";
 var postHtml = baseHtml + baseReplyHtml + liEndTag;
 var replyHtml = baseHtml + liEndTag;
@@ -24,10 +24,15 @@ function createReply(postId, reply) {
     console.log('CLIENT - createReply postId', postId);
     var picture = reply.picture || 'img/noprofile.jpg';
     var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', picture);
-    var firstItem = $('#post-' + postId).find('ul.replies').children().first();
-    $('#post-' + postId).find('ul.replies').prepend(r);
+    var replyContainer = $('#post-' + postId).find('ul.replies');
+    var replies = replyContainer.children(".list-group-item-reply");
+    if (replies.length === 1)
+        replyContainer.prepend("<li class='more text-center'> ...</li>");
+
+    replyContainer.prepend(r);
+
     if ($('#post-' + postId).find('ul.replies li.more').is(":hidden"))
-        $('#post-' + postId).find('ul.replies').children(".list-group-item-reply").fadeIn();
+        replies.fadeIn();
 }
 
 function createPost(post) {
