@@ -1,13 +1,13 @@
 $(function () {
     function split(val) {
-        return val.split(/,\s*/);
+        return val.split(/#\s*/);
     }
 
     function extractLast(term) {
         return split(term).pop();
     }
 
-    $("#birds")
+    $("#input-primary")
         // don't navigate away from the field on tab when selecting an item
         .bind("keydown", function (event) {
             if (event.keyCode === $.ui.keyCode.TAB &&
@@ -17,13 +17,15 @@ $(function () {
         })
         .autocomplete({
             source: function (request, response) {
-                $.getJSON("search.php", {
-                    term: extractLast(request.term)
-                }, response);
+                $.getJSON("/hashtags/autocomplete/" + extractLast(request.term), response);
             },
             search: function () {
                 // custom minLength
                 var term = extractLast(this.value);
+                if (term.startsWith('#')) {
+                    return false;
+                }
+
                 if (term.length < 2) {
                     return false;
                 }
@@ -39,8 +41,8 @@ $(function () {
                 // add the selected item
                 terms.push(ui.item.value);
                 // add placeholder to get the comma-and-space at the end
-                terms.push("");
-                this.value = terms.join(", ");
+                this.value = terms.join("#");
+
                 return false;
             }
         });

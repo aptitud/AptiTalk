@@ -4,9 +4,11 @@ html
     title AptiTalk
     meta(name="viewport" content="width=device-width,initial-scale=1, user-scalable=no")
     if internet
+      link(href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.css",rel="stylesheet")
       link(href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css", rel="stylesheet")
     else
       link(href="public/css/bootstrap.min.css", rel="stylesheet")
+      link(href="public/css/jquery-ui.css", rel="stylesheet")        
     link(href="public/css/style.css", rel="stylesheet")
     link(href="public/css/loader.css", rel="stylesheet")
   body
@@ -30,7 +32,7 @@ html
               h3.panel-title Posts 
             div#talk
               div.input-group.input-group-sm
-                textarea.form-control(rows='5')#input-primary
+                input.form-control(rows='5')#input-primary
                 span.input-group-btn
                   button.btn.btn-primary.btn-xs(type='button')
                     | Talk
@@ -69,6 +71,7 @@ html
     if internet
       script(src="https://code.jquery.com/jquery-1.10.2.min.js")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
+      script(src="//code.jquery.com/ui/1.11.4/jquery-ui.js")
       script(src="/socket.io/socket.io.js")
       script(src="public/js/jquery.timeago.js")
       script(src="public/js/client.js")
@@ -77,4 +80,6 @@ html
       script(src="public/js/bootstrap.min.js")
       script(src="/socket.io/socket.io.js")
       script(src="public/js/jquery.timeago.js")
+      script(src="public/js/jquery-ui.min.js")        
       script(src="public/js/client.js")
+      script(src="public/js/autocomplete.js")
