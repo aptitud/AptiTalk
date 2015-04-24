@@ -34,7 +34,7 @@ app.configure(function () {
     app.use(passport.session());
     app.use(app.router);
     app.use('/public', express.static('public'));
-    app.use(express.favicon("favicon.ico"));
+    app.use(express.favicon("public/favicon.ico"));
     app.use(app.router);
 });
 
