@@ -24,7 +24,10 @@ function createReply(postId, reply) {
     console.log('CLIENT - createReply postId', postId);
     var picture = reply.picture || 'img/noprofile.jpg';
     var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', picture);
-    $('#post-' + postId).closest('li').after(r);
+    var firstItem = $('#post-' + postId).find('ul.replies').children().first();
+    $('#post-' + postId).find('ul.replies').prepend(r);
+    if ($('#post-' + postId).find('ul.replies li.more').is(":hidden"))
+        $('#post-' + postId).find('ul.replies').children().fadeIn();
 }
 
 function createPost(post) {
