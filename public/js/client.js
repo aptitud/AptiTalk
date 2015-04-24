@@ -27,7 +27,7 @@ function createReply(postId, reply) {
     var firstItem = $('#post-' + postId).find('ul.replies').children().first();
     $('#post-' + postId).find('ul.replies').prepend(r);
     if ($('#post-' + postId).find('ul.replies li.more').is(":hidden"))
-        $('#post-' + postId).find('ul.replies').children().fadeIn();
+        $('#post-' + postId).find('ul.replies').children(".list-group-item-reply").fadeIn();
 }
 
 function createPost(post) {
