@@ -86,7 +86,10 @@ function initButtonEvents() {
     });
 
     $("li.more").click(function (evnt) {
-        $(this).siblings().fadeIn();
+        var that = $(this);
+        $(this).fadeOut(function () {
+            that.siblings().fadeIn();
+        });
     });
 
 }

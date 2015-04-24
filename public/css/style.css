@@ -191,4 +191,5 @@ ul.replies li.more {
     display: block;
     font-size: 3em;
     cursor: pointer;
+    color: gray;
 }

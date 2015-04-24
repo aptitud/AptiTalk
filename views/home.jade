@@ -64,7 +64,8 @@ html
                             time#post-time(datetime=reply.time.toISOString())
                             div#post-message !{reply.message}
                         if post.replies.length > 1
-                          li.more ...
+                          li.more.text-center ...
+
     if internet
       script(src="https://code.jquery.com/jquery-1.10.2.min.js")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
