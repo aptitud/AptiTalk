@@ -10,115 +10,121 @@ var theUser = [];
 var connected = false;
 
 if (!String.prototype.format) {
-  String.prototype.format = function () {
-    var args = arguments;
-    var re = /\{(\d+)\}/g;
-    return this.replace(re, function (match, number) {
-      return args[number] !== 'undefined' ? args[number] : match;
-    });
-  };
+    String.prototype.format = function () {
+        var args = arguments;
+        var re = /\{(\d+)\}/g;
+        return this.replace(re, function (match, number) {
+            return args[number] !== 'undefined' ? args[number] : match;
+        });
+    };
 }
 
 function createReply(postId, reply) {
-  console.log('CLIENT - createReply', reply);
-  console.log('CLIENT - createReply postId', postId);
-  var picture = reply.picture || 'img/noprofile.jpg';
-  var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', picture);
-  $('#post-' + postId).closest('li').after(r);
+    console.log('CLIENT - createReply', reply);
+    console.log('CLIENT - createReply postId', postId);
+    var picture = reply.picture || 'img/noprofile.jpg';
+    var r = replyHtml.format(reply._id, reply.username, reply.time, reply.message, '-reply', 'reply', picture);
+    $('#post-' + postId).closest('li').after(r);
 }
 
 function createPost(post) {
-  console.log('CLIENT - createPost', post);
-  var picture = post.picture || 'img/noprofile.jpg';
-  var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post', picture);
-  postsList.prepend(p);
+    console.log('CLIENT - createPost', post);
+    var picture = post.picture || 'img/noprofile.jpg';
+    var p = postHtml.format(post._id, post.username, post.time, post.message, '', 'post', picture);
+    postsList.prepend(p);
 }
 
 function initButtonEvents() {
-  if (connected === false)
-    return;
+    if (connected === false)
+        return;
 
-  $('.btn-primary').click(function (event) {
-    var message = $('#input-primary').val();
-    if (message !== '') {
-      var post = {
-        postId: 0,
-        user: theUser.name,
-        message: message
-      };
-      socket.emit('post', post);
-      $('#input-primary').val('');
-    }
-  });
+    $('.btn-primary').click(function (event) {
+        var message = $('#input-primary').val();
+        if (message !== '') {
+            var post = {
+                postId: 0,
+                user: theUser.name,
+                message: message
+            };
+            socket.emit('post', post);
+            $('#input-primary').val('');
+        }
+    });
 
-  $(".btn-info").click(function (event) {
-    var id = event.target.id.replace(/reply-btn-/g, '');
-    var message = $('#reply-input-' + id).val();
-    if (message !== '') {
-      var reply = {
-        postId: id,
-        user: theUser.name,
-        message: message
-      };
-      $('#reply-input-' + id).val('');
-      socket.emit('reply', reply);
-    }
-  });
+    $(".btn-info").click(function (event) {
+        var id = event.target.id.replace(/reply-btn-/g, '');
+        var message = $('#reply-input-' + id).val();
+        if (message !== '') {
+            var reply = {
+                postId: id,
+                user: theUser.name,
+                message: message
+            };
+            $('#reply-input-' + id).val('');
+            socket.emit('reply', reply);
+        }
+    });
 
-  $(".reply-input").keyup(function (event) {
-    var btnId = "#reply-btn-" + event.target.id.replace(/reply-input-/g, '');
-    if (event.keyCode === 13 && event.shiftKey) {
-      return;
-    }
-    if (event.keyCode === 13) {
-      $(btnId).click();
-    }
-  });
+    $(".reply-input").keyup(function (event) {
+        var btnId = "#reply-btn-" + event.target.id.replace(/reply-input-/g, '');
+        if (event.keyCode === 13 && event.shiftKey) {
+            return;
+        }
+        if (event.keyCode === 13) {
+            $(btnId).click();
+        }
+    });
 
-  $('#input-primary').keyup(function (event) {
-    if (event.keyCode === 13 && event.shiftKey) {
-      return;
-    }
+    $('#input-primary').keyup(function (event) {
+        if (event.keyCode === 13 && event.shiftKey) {
+            return;
+        }
 
-    if (event.keyCode === 13) {
-      $('.btn-primary').click();
-    }
-  });
+        if (event.keyCode === 13) {
+            $('.btn-primary').click();
+        }
+    });
+
+    $("li.more").click(function (evnt) {
+        $(this).siblings().fadeIn();
+    });
+
 }
 
+
 function showPosts() {
-  $('div.row.loader').hide();
-  $('#posts-row').removeClass('transparent-div');
+    $('div.row.loader').hide();
+    $('#posts-row').removeClass('transparent-div');
 }
 
 socket.on('connect', function () {
-  console.log('CLIENT - Connected');
-  connected = true;
-  showPosts();
-  theUser = {
-    id: $('#userId').text(),
-    name: $('#userName').text(),
-    email: $('#userEmail').text(),
-    picture: $('#img-profile-heading').attr('src')
-  };
-  postsList = $(posts);
-  initButtonEvents();
-  $('#input-primary').focus();
-  $('time').timeago();
+    console.log('CLIENT - Connected');
+    connected = true;
+    showPosts();
+    theUser = {
+        id: $('#userId').text(),
+        name: $('#userName').text(),
+        email: $('#userEmail').text(),
+        picture: $('#img-profile-heading').attr('src')
+    };
+    postsList = $(posts);
+    initButtonEvents();
+    $('#input-primary').focus();
+    $('time').timeago();
 });
 
 socket.on('replyAdded', function (postId, replyAdded) {
-  createReply(postId, replyAdded);
-  initButtonEvents();
-  $('time').timeago();
+    createReply(postId, replyAdded);
+    initButtonEvents();
+    $('time').timeago();
 });
 
 socket.on('postAdded', function (postAdded) {
-  createPost(postAdded);
-  initButtonEvents();
-  $('time').timeago();
+    createPost(postAdded);
+    initButtonEvents();
+    $('time').timeago();
 });
 
 socket.on('sessionId', function (socketId) {
-  socket.emit('user', theUser, socketId);
+    socket.emit('user', theUser, socketId);
 });

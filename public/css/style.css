@@ -173,3 +173,22 @@ textarea {
         margin-bottom: 10px;
     }
 }
+
+ul.replies {
+    padding-left: 0;
+    list-style: none;
+}
+
+ul.replies li {
+    display: none;
+}
+
+ul.replies li:first-child {
+    display: block;
+}
+
+ul.replies li.more {
+    display: block;
+    font-size: 3em;
+    cursor: pointer;
+}

@@ -51,17 +51,20 @@ html
                         textarea.form-control.reply-input(id='reply-input-' + post._id type='text')
                         span.input-group-btn
                           button.btn.btn-info.btn-xs(id='reply-btn-' + post._id type='button') Reply
-                  each reply in post.replies.reverse()
-                    li(class='list-group-item list-group-item-reply')
-                      div(id='reply-' + reply.parentPostId)
-                      div#post-image
-                        if reply.picture
-                          img#img-post(src=reply.picture)
-                        else
-                          img#img-post(src='public/img/noprofile.jpg')
-                      div#post-user #{reply.username}
-                      time#post-time(datetime=reply.time.toISOString())
-                      div#post-message !{reply.message}
+                      ul.replies
+                        each reply in post.replies.reverse()
+                          li(class='list-group-item list-group-item-reply')
+                            div(id='reply-' + reply.parentPostId)
+                            div#post-image
+                              if reply.picture
+                                img#img-post(src=reply.picture)
+                              else
+                                img#img-post(src='public/img/noprofile.jpg')
+                            div#post-user #{reply.username}
+                            time#post-time(datetime=reply.time.toISOString())
+                            div#post-message !{reply.message}
+                        if post.replies.length > 1
+                          li.more ...
     if internet
       script(src="https://code.jquery.com/jquery-1.10.2.min.js")
       script(src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js")
