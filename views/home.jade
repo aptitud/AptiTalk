@@ -10,15 +10,11 @@ html
     link(href="public/css/style.css", rel="stylesheet")
     link(href="public/css/loader.css", rel="stylesheet")
   body
-    div.navbar.navbar-default.navbar-fixed-top
-      div.container
-        div.navbar-header
-          img.pull-left#img-logo(src="public/img/aptitud.png")
-    div#space &nbsp;
+    
     div.container
       div.col-sm-12
         div.row
-          div.jumbotron#profile
+          div.jumbotron.hidden-xs#profile
             if user.picture
               img#img-profile-heading(src=user.picture)
             else
