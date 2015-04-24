@@ -79,6 +79,12 @@ app.get('/', google.ensureAuthenticated, function (req, res) {
     });
 });
 
+app.get('/hashtags/autocomplete/:prefix', google.ensureAuthenticated, function (req, res) {
+    dbAccess.getHashtagsStartingWith(req.params.prefix, function (err, hashtags) {
+        res.send(hashtags);
+    });
+});
+
 app.get('/hashtags/:hashtag', google.ensureAuthenticated, function (req, res) {
     chat.getPostsForHashtag(req.params.hashtag, function (posts) {
         console.log(posts);
