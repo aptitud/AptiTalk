@@ -14,9 +14,28 @@ var google = require('./lib/google.js');
 var dbAccess = require('./lib/dbAccess/dbAccess');
 var config = require('./config')();
 
-app.set('view engine', 'jade');
-app.set('view options', {
-    layout: false
+app.configure(function () {
+    // Views Options
+    app.set('views', __dirname + '/views');
+    app.set('view engine', 'jade');
+    app.set("view options", {
+        layout: false
+    });
+    app.use(express.logger());
+    app.use(express.cookieParser());
+    app.use(express.bodyParser());
+    app.use(express.methodOverride());
+    app.use(express.session({
+        secret: 'aptitud'
+    }));
+    // Initialize Passport!  Also use passport.session() middleware, to support
+    // persistent login sessions (recommended).
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(app.router);
+    app.use('/public', express.static('public'));
+    app.use(express.favicon("favicon.ico"));
+    app.use(app.router);
 });
 
 dbAccess.connectToDb(config.mongoUrl);
@@ -115,7 +134,7 @@ passport.use(new GooglePlusStrategy({
     });
 }));
 
-app.all('/auth/google/callback', passport.authenticate('google'), function (req, res) {
+app.post('/auth/google/callback', passport.authenticate('google'), function (req, res) {
     // Return user profile back to client
     console.log('SERVER - user', req.user);
     res.send(req.user);
