@@ -8,6 +8,7 @@ var replyHtml = baseHtml + liEndTag;
 var postsList = [];
 var theUser = [];
 var connected = false;
+var autocomplete = new AptiTalk.AutoComplete();
 
 if (!String.prototype.format) {
     String.prototype.format = function () {
@@ -46,6 +47,7 @@ function initButtonEvents() {
     if (connected === false)
         return;
 
+    autocomplete.bindControls();
     $('.btn-primary').click(function (event) {
         var message = $('#input-primary').val();
         if (message !== '') {
@@ -99,7 +101,6 @@ function initButtonEvents() {
             that.siblings().fadeIn();
         });
     });
-
 }
 
 

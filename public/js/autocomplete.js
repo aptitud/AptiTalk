@@ -1,4 +1,6 @@
-$(function () {
+var AptiTalk = AptiTalk || {};
+
+AptiTalk.AutoComplete = function () {
     function split(val) {
         return val.split(/#\s*/);
     }
@@ -7,15 +9,16 @@ $(function () {
         return split(term).pop();
     }
 
-    $("#input-primary")
+    function keyDown(event) {
         // don't navigate away from the field on tab when selecting an item
-        .bind("keydown", function (event) {
-            if (event.keyCode === $.ui.keyCode.TAB &&
-                $(this).autocomplete("instance").menu.active) {
-                event.preventDefault();
-            }
-        })
-        .autocomplete({
+        if (event.keyCode === $.ui.keyCode.TAB &&
+            $(this).autocomplete("instance").menu.active) {
+            event.preventDefault();
+        }
+    }
+
+    function autoComplete() {
+        return {
             source: function (request, response) {
                 $.getJSON("/hashtags/autocomplete/" + extractLast(request.term), response);
             },
@@ -45,5 +48,16 @@ $(function () {
 
                 return false;
             }
-        });
-});
+        };
+    }
+
+    this.bindControls = function () {
+        $(".reply-input")
+            .bind("keydown", keyDown)
+            .autocomplete(autoComplete());
+
+        $("#input-primary")
+            .bind("keydown", keyDown)
+            .autocomplete(autoComplete());
+    };
+};
