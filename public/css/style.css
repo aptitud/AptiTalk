@@ -192,3 +192,11 @@ ul.replies li.more {
     color: gray;
     line-height: 0.7em;
 }
+
+ul.replies li.collapse {
+    display: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: gray;
+    line-height: 0.7em;
+}

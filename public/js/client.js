@@ -101,6 +101,14 @@ function initButtonEvents() {
             that.siblings().fadeIn();
         });
     });
+
+    $("li.collapse").click(function (event) {
+        var that = $(this);
+        $(this).fadeOut(function () {
+            that.siblings('.list-group-item-reply:not(:first)').fadeOut();
+            that.siblings('.more').fadeIn();
+        });
+    });
 }
 
 
