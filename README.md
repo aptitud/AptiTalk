@@ -28,6 +28,21 @@ Setup Windows Environment
 7. In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm install`
 8. In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `npm install nodemon -g`
 
+Setup OS X Environment
+----------------------
+PREREQUISITES (perform if necessary):  
+1. Install Homebrew - http://brew.sh/  
+2. Install git using Homebrew - `brew install git`  
+3. Install Node.js using Homebrew  - `brew install node`  
+4. Install nodemon globally using NPM - `npm install nodemon -g`  
+4. Install MongoDB using Homebrew - `brew install mongodb`  
+5. Run MongoDB daemon - `mongod --config /usr/local/etc/mongod.conf`  
+
+APTITALK  
+1. Clone AptiTalk repo - in Terminal where you want the repo write  
+   `git clone https://github.com/aptitud/AptiTalk.git`  
+2. In the cloned repo directory, install the Node.js modules - `npm install`  
+
 Start AptiTalk (Dev mode)
 -------------------------
 In the AptiTalk repo directory - `C:\Git\AptiTalk` run the following: `nodemon server.js`
