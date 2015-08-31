@@ -86,7 +86,6 @@ module.exports.getHashTagsFromMessage = getHashTagsFromMessage;
 
 var addTestPost = function (username, message, cb) {
   dbAccess.addPost(username, message, fakeXssIt, getHashTagsFromMessage, function (result) {
-    validateOkResult(result);
     cb(result);
   });
 };
@@ -98,10 +97,3 @@ var addTestReply = function (id, username, message, cb) {
   });
 };
 module.exports.addTestReply = addTestReply;
-
-module.exports.addTestPosts = function (numberOfPosts, callback) {
-  var i = 0;
-  for (i = 0; i <= numberOfPosts; i++) {
-    addTestPost(USERNAME, MESSAGE + " " + (i + 1), callback);
-  }
-};

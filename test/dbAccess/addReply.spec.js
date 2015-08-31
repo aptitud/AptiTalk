@@ -59,6 +59,7 @@ describe("Replying to posts", function () {
             });
         });
     });
+
     it("validates the presence of a message", function (done) {
         testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
             var id = result.data._id;
