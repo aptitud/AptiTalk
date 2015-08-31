@@ -15,7 +15,7 @@ describe("Replying to posts", function () {
         done();
     });
 
-    after(function (done) {
+    afterEach(function (done) {
         testHelpers.deleteAll();
         done();
     });
