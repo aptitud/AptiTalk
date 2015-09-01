@@ -17,7 +17,7 @@ describe("Replying to posts", function () {
     });
 
     function validateNumberOfReplies(id, expectedNumberOfReplies) {
-        console.log("Getting " + id + " back out");
+        // console.log("Getting " + id + " back out");
         dbAccess.getPostById(id, function (result) {
             testHelpers.validateOkResult(result);
             result.data.replies.length.should.equal(expectedNumberOfReplies);
