@@ -7,21 +7,19 @@ describe("Replying to posts", function () {
 
     before(function (done) {
         testHelpers.connectMongo();
-        done();
-    });
-
-    beforeEach(function (done) {
         testHelpers.deleteAll();
         done();
     });
 
-    afterEach(function (done) {
-        testHelpers.deleteAll();
-        done();
+    after(function (done) {
+      testHelpers.deleteAll();
+      done();
     });
 
     function validateNumberOfReplies(id, expectedNumberOfReplies) {
+        console.log("Getting " + id + " back out");
         dbAccess.getPostById(id, function (result) {
+            console.log(result.data);
             testHelpers.validateOkResult(result);
             result.data.replies.length.should.equal(expectedNumberOfReplies);
         });
@@ -37,13 +35,16 @@ describe("Replying to posts", function () {
 
 
     it("adds replies to a post", function (done) {
-        testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result) {
-            var id = result.data._id;
-            testHelpers.addTestReply(id, "Hugo", "Tjääääna du'ra!", function (result) {
-                testHelpers.addTestReply(id, "Marcus", "Asså ba tjena!", function (result) {
-                    testHelpers.validateOkResult(result);
-                    result.data.replyLevel.should.equal(1);
+        testHelpers.addTestPost(testHelpers.USERNAME, testHelpers.MESSAGE, function (result1) {
+            var id = result1.data._id;
+            testHelpers.addTestReply(id, "Hugo", "Answer 1 for: " + id, function (result2) {
+                testHelpers.addTestReply(id, "Marcus", "Answer 2 for: " + id, function (result3) {
+
+                    testHelpers.validateOkResult(result3);
+                    result3.data.replyLevel.should.equal(1);
+
                     validateNumberOfReplies(id, 2);
+                    
                     done();
                 });
             });
