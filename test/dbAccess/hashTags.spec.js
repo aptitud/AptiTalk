@@ -6,15 +6,11 @@ var testHelpers = require("./testHelpers.js");
 describe("Hashtags", function () {
   before(function (done) {
     testHelpers.connectMongo();
-    done();
-  });
-
-  beforeEach(function (done) {
     testHelpers.deleteAll();
     done();
   });
 
-  after(function (done) {
+  afterEach(function (done) {
     testHelpers.deleteAll();
     done();
   });
