@@ -44,7 +44,8 @@ html
                           img#img-post(src=post.picture)
                         else
                           img#img-post(src='public/img/noprofile.jpg')
-                      div#post-user #{post.username}
+                      div#post-user
+                        a(href='/users/'+post.username) #{post.username}
                       time#post-time(datetime=post.time.toISOString())
                       div#post-message !{post.message}
                       div.input-group.input-group-sm
@@ -60,7 +61,8 @@ html
                                 img#img-post(src=reply.picture)
                               else
                                 img#img-post(src='public/img/noprofile.jpg')
-                            div#post-user #{reply.username}
+                            div#post-user
+                              a(href='/users/'+reply.username) #{reply.username}
                             time#post-time(datetime=reply.time.toISOString())
                             div#post-message !{reply.message}
                         if post.replies.length > 1

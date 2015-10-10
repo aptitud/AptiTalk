@@ -8,8 +8,8 @@ var api = 'AIzaSyCvVOKAbnX258n3pwQL3uOnG6zJejFc28Q';
 var config = {
   local: {
     appPort: appPort,
-    authentication: 'none',
-    internet: false,
+    authentication: 'google',
+    internet: true,
     mode: 'local',
     port: 3000,
     mongoUrl: mongoDevUri,

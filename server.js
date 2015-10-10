@@ -110,6 +110,16 @@ app.get('/login', function (req, res) {
     });
 });
 
+app.get('/users/:username', google.ensureAuthenticated, function (req, res) {
+    chat.getPostsForUser(req.params.username, function (posts) {
+        res.render('users', {
+            user: req.user,
+            name: req.params.username,
+            internet: config.internet,
+            posts: posts
+        });
+    });
+});
 
 app.listen(config.appPort);
 
